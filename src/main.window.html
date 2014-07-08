@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles/font.css">
+        <link rel="stylesheet" type="text/css" href="styles/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="styles/style.css">
+        
+        <script src="scripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="dragbar">
+            Ponyville Live! Desktop App v<span class="pvl-app-version"></span>
+        </div>
+        <div class="exit"></div>
+        <div class="minimize"></div>
+
+        <div id="container">
+            <div class="select_bar">
+                <ul class="station_list">
+                </ul>
+            </div>
+
+            <div class="display" style="display: none;">
+                <div class="nowplaying panel">
+                    <div class="panel-top">
+                        <h4>Now Playing - On <span class="nowplaying-station-name"></span></h4>
+                    </div>
+                    <div class="nowplaying-info">
+                        <p class="nowplaying-song"></p>
+                        <p class="nowplaying-artist"></p>
+                    </div>
+                </div>
+                
+                <div class="player_controls panel">
+                    <div class="panel-top">
+                        <h4>Volume Controls</h4>
+                    </div>
+                    <div class="controls">
+                        <a href="javascript:;" class="mute" tabindex="1" title="Mute"><i class="fa fa-volume-off"></i></a>
+    
+                        <div class="volume-bar progress">
+                            <div class="volume-bar-value bar" style="width: 100%;"></div>
+                        </div>
+    
+                        <a href="javascript:;" class="volume-max" tabindex="1" title="Max volume"><i class="fa fa-volume-up"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="app-error" style="display: none;">
+            <h1 class="app-error-title"> </h1>
+            <p class="app-error-body"> </p>
+            <input type="button" class="app-error-dismiss btn" value="Dismiss">
+        </div>
+        
+        <div id="background">
+            <p id="welcome-message">Select A Station!</p>
+            <div id="mascot"></div>
+        </div>
+        
+        <script src="scripts/main.js" type="text/javascript"></script>
+    </body>
+</html>
