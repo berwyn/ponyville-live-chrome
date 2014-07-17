@@ -1,4 +1,4 @@
-var __app_version = "0.0.1_DEV-BETA";
+var __app_version = "0.0.2_DEV-BETA";
 
 /**DEBUG CODE**/
 function S4(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1);}
@@ -10,6 +10,7 @@ function __debug(msg){if(__debug_mode)console.log("[DEBUG][" + arguments.callee.
 
 $(function(){_hook_app_ready()});
 
+var _last_played_song = 0;
 
 function _hook_app_ready() {
 	__debug("***===STARTING DEBUG===***")
@@ -68,7 +69,38 @@ function pvl_hook_buttons()
     	$('.volume-bar-value').css('width', '100%');
     	__debug("Volume Changed [MAX]")   
     });
-	
+    
+    
+	$('.vote a').click(function(event){
+    	event.preventDefault();
+    	
+    	if($(this).hasClass('vote-down') && !$(this).hasClass('selected'))
+    	{
+    		_vote_type = "dislike";
+    		$('.display .controls .vote .nowplaying-score').text(Number($('.display .controls .vote .nowplaying-score').attr('data-orginal')) - 1);
+    		$('.display .controls .vote .vote-up').removeClass('selected');
+    	}
+    	else if($(this).hasClass('vote-up') && !$(this).hasClass('selected'))
+    	{
+    		_vote_type = "like";
+    		$('.display .controls .vote .nowplaying-score').text(Number($('.display .controls .vote .nowplaying-score').attr('data-orginal')) + 1);
+    		$('.display .controls .vote .vote-down').removeClass('selected');
+    	}
+    	else if($(this).hasClass('selected'))
+    	{
+    		_vote_type = "clearvote";
+    		$('.display .controls .vote .nowplaying-score').text(Number($('.display .controls .vote .nowplaying-score').attr('data-orginal')));
+    	}
+    	
+    	$(this).toggleClass('selected');
+    		
+    	_song_id = $('.display .controls .vote .nowplaying-score').attr('data-id');
+    	
+    	$.post( "http://ponyvillelive.com/api/song/"+_vote_type+"/sh_id/"+_song_id, function(data) {
+			__debug("Song Vote ["+_vote_type+"] - Response ["+data.status+"]");
+			console.log(data);
+		});
+    });
 	
     __debug("Button hooks loaded!");
 }
@@ -112,25 +144,26 @@ function pvl_load_stations()
 		
 		pvl_update_stations();
 		
-		$('.station').click(function(event){
+		$('.station_list .station').click(function(event){
+			if($(this).hasClass("offline"))
+				return;
+				
 			if($(this).hasClass('playing'))
 			{
 				$('#container > .display').fadeOut();
 				$('#background > #welcome-message').fadeIn();
 				$('#background > #mascot').fadeIn();
-				$('.station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
+				$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
 			}
 			else
 			{
-				$('.station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
+				$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
 				$('#background > #welcome-message').fadeOut();
 				$('#background > #mascot').fadeOut();
 				
 				$(this).addClass('playing');
 				$(this).find('audio')[0].load();
 				$(this).find('audio')[0].play();
-				
-				$('#container > .display > .nowplaying > .panel-top > h4 > .nowplaying-station-name').text($(this).data('name'));
 				
 				$('#container > .display').fadeIn();
 				pvl_update_stations();
@@ -159,12 +192,22 @@ function pvl_update_stations()
 			
 			for(station_id in data)
 			{
-			   station_data = data[station_id];
-               if(station_data.category != "audio")
-					return;
+			   	station_data = data[station_id];
+               	if(station_data.category != "audio")
+					continue;
 				if($('li[id="station_'+data.code+'"]') == 0)
-					return;
-					
+					continue;
+				
+				if(station_data.listeners == null)
+				{
+					$('li[id="station_'+station_data.code+'"]').addClass("offline");
+					$('li[id="station_'+station_data.code+'"] > h4 > .nowplaying-info > .nowplaying-listeners').html('<i class="fa fa-user"></i>&nbsp;Offline');
+					$('li[id="station_'+station_data.code+'"] > .nowplaying-song').text("Station Offline");
+					continue;
+				}
+				else 
+					$('li[id="station_'+station_data.code+'"]').removeClass("offline");
+				
 				$('li[id="station_'+station_data.code+'"] > h4 > .nowplaying-info > .nowplaying-listeners').html('<i class="fa fa-user"></i>&nbsp;'+station_data.listeners);
 				$('li[id="station_'+station_data.code+'"] > h4 > .nowplaying-info > .nowplaying-listeners').attr('title', station_data.listeners+' Listeners')
 				
@@ -190,16 +233,93 @@ function pvl_update_stations()
 				
 				if($('li[id="station_'+station_data.code+'"]').hasClass("playing"))
 				{
-					$('.display > .nowplaying > .nowplaying-info > .nowplaying-song').text(station_data.title);
-					$('.display > .nowplaying > .nowplaying-info > .nowplaying-song').attr('title', station_data.title);
+					$('.display > .station > img').attr('src', $('li[id="station_'+station_data.code+'"] > img').attr('src'));
 					
-					$('.display > .nowplaying > .nowplaying-info > .nowplaying-artist').text(station_data.artist);
-					$('.display > .nowplaying > .nowplaying-info > .nowplaying-artist').attr('title', station_data.artist);
+					$('.display > .station > .info > h1').text(station_data.name);
+					$('.display > .station > .info > h1').append('<span class="nowplaying-info"><span class="nowplaying-listeners"></span></span>');
+					$('.display > .station > .info > .genre-info').text(station_data.genre);
+					
+					$('#container > .display > .nowplaying > .panel-top > h4 > .nowplaying-station-listeners').text(station_data.listeners + ' Listeners Tuned In');
+					
+					if(_last_played_song != station_data.song_sh_id)
+					{
+						$('.display > .nowplaying > .nowplaying-info > .nowplaying-song').text(station_data.title);
+						$('.display > .nowplaying > .nowplaying-info > .nowplaying-song').attr('title', station_data.title);
+						
+						$('.display > .nowplaying > .nowplaying-info > .nowplaying-artist').text(station_data.artist);
+						$('.display > .nowplaying > .nowplaying-info > .nowplaying-artist').attr('title', station_data.artist);
+						
+						$('.display .controls .vote .nowplaying-score').attr('data-id', station_data.song_sh_id);
+						$('.display .controls .vote .nowplaying-score').attr('data-orginal', station_data.song_score);
+						$('.display .controls .vote .nowplaying-score').text(station_data.song_score);
+						
+						_last_played_song = station_data.song_sh_id;
+						
+						if(station_data.song_external != null && station_data.song_external.bronytunes != null && station_data.song_external.bronytunes.image_url != null)
+							notify(station_data.logo, station_data.name, station_data.text, station_data.song_external.bronytunes.image_url);
+						else
+							notify(station_data.logo, station_data.name, station_data.text, null);
+					}
 				}
             }
 	});	
 	
 	$(".select_bar").fadeIn();
+}
+
+function notify(image, notification_title, description, song_image)
+{
+	__debug("Notify Called");
+	var opt = {
+		type : "basic",
+		title: notification_title,
+		message: description,
+	}
+	
+	opt.priority = 2;
+	
+	__debug("Converting image [" + image + "] to blob")
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", image);
+	xhr.responseType = "blob";
+	xhr.onload = function(){
+    	var blob = this.response;
+    	opt.iconUrl = window.URL.createObjectURL(blob);
+    	
+    	if(song_image != null)
+    		notify_image(opt, song_image);
+    	else
+    		chrome.notifications.create("id" + _last_played_song, opt, creationCallback);
+	};
+	xhr.send(null);
+}
+
+function notify_image(opt, song_image)
+{
+	__debug("Notify Image Called");
+	opt.type = "image";
+	
+	__debug("Converting image [" + song_image + "] to blob")
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", song_image);
+	xhr.responseType = "blob";
+	xhr.onload = function(){
+    	var blob = this.response;
+    	opt.imageUrl = window.URL.createObjectURL(blob);
+    	chrome.notifications.create("id" + _last_played_song, opt, creationCallback);
+	};
+	xhr.send(null);
+}
+
+function creationCallback(notID) {
+	__debug("Succesfully created " + notID + " notification");
+	if (document.getElementById("clear").checked) {
+		setTimeout(function() {
+			chrome.notifications.clear(notID, function(wasCleared) {
+				__debug("Notification " + notID + " cleared: " + wasCleared);
+			});
+		}, 1500);
+	}
 }
 
 function pvl_error(title, message, continue_allowed)

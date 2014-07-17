@@ -8,9 +8,15 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.0.1_DEV-BETA
+v0.0.2_DEV-BETA
 
 **Because this software is still in beta some features and controllers may not work how they should!**
+
+Change List
+----
+
+* **v0.0.1_DEV_BETA** - Initial Git DEV-BETA Channel Release
+* **v0.0.2_DEV_BETA** - Updated Selected Station Display Information | Added voting thumbs and score | Added handling for offline stations
 
 Installation
 --------------

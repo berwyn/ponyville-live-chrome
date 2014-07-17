@@ -21,9 +21,18 @@
             </div>
 
             <div class="display" style="display: none;">
+            	<div class="station">
+            		<img>
+            		
+            		<div class="info">
+            			<h1></h1>
+            			<h4 class="genre-info"></h4>
+            		</div>
+            	</div>
+            	
                 <div class="nowplaying panel">
                     <div class="panel-top">
-                        <h4>Now Playing - On <span class="nowplaying-station-name"></span></h4>
+                        <h4>Now Playing - <span class="nowplaying-station-listeners"></span></h4>
                     </div>
                     <div class="nowplaying-info">
                         <p class="nowplaying-song"></p>
@@ -36,13 +45,19 @@
                         <h4>Volume Controls</h4>
                     </div>
                     <div class="controls">
-                        <a href="javascript:;" class="mute" tabindex="1" title="Mute"><i class="fa fa-volume-off"></i></a>
-    
-                        <div class="volume-bar progress">
-                            <div class="volume-bar-value bar" style="width: 100%;"></div>
-                        </div>
-    
-                        <a href="javascript:;" class="volume-max" tabindex="1" title="Max volume"><i class="fa fa-volume-up"></i></a>
+                    	<div class="volume">
+	                        <a href="javascript:;" class="mute" tabindex="1" title="Mute"><i class="fa fa-volume-off"></i></a>
+	                        <div class="volume-bar progress">
+	                            <div class="volume-bar-value bar" style="width: 100%;"></div>
+	                        </div>
+	                        <a href="javascript:;" class="volume-max" tabindex="1" title="Max volume"><i class="fa fa-volume-up"></i></a>
+                     	</div><!-- volume controlls -->
+                     	
+                     	<div class="vote">
+                     		<a href="javascript:;" class="vote-down" tabindex="1" title="Vote This Song Down"><i class="fa fa-thumbs-down"></i></a>
+                     		<div style="display:inline;" class="nowplaying-score">100</div>
+                     		<a href="javascript:;" class="vote-up" tabindex="1" title="Vote This Song Up"><i class="fa fa-thumbs-up"></i></a>
+                     	</div><!-- vote controlls -->
                     </div>
                 </div>
             </div>
