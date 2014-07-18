@@ -8,13 +8,14 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.1.1
+v0.1.2
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
+* **v0.1.2** - Fixed bug where notifications would continue even after playback had been stoped
 * **v0.1.1** - Removed the stupid .0/.1 release version rule | Removed un-needed minor version value | Removed custom title bar and changed to native system style | Added branding to the start display
 * **v0.0.1.0_RELEASE** - Initial Release Version
 * **v0.0.3_DEV_BETA** - Added pause button to display | Changed update code to still update display even if no station is set to playing | Changed version in the manifest, versions ending with .1 are BETA versions and those with .0 are release versions | Fixed bug where the right side of the exit button wouldn't work

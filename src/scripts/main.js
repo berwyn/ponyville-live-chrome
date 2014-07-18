@@ -1,4 +1,4 @@
-var __app_version = "0.1.1";
+var __app_version = "0.1.2";
 var __app_beta = false;
 
 /**DEBUG CODE**/
@@ -156,6 +156,7 @@ function pvl_load_stations()
 				$('#background > #mascot').fadeIn();
 				$('#background > #logotype').fadeIn();
 				$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
+				$('.display > .station').attr('data-station-id', 0);
 			}
 			else
 			{
