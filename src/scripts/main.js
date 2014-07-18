@@ -1,4 +1,5 @@
-var __app_version = "0.0.1.0_RELEASE";
+var __app_version = "0.1.1";
+var __app_beta = false;
 
 /**DEBUG CODE**/
 function S4(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1);}
@@ -18,11 +19,13 @@ function _hook_app_ready() {
 	__debug("System Platform: " + navigator.platform);
 	__debug("System Browser: " + navigator.vendor);
 	__debug("System User Agent: " + navigator.userAgent);
+	__debug("App Version: " + __app_version);
+	__debug("Debug Copy: " + __app_beta);
 	__debug("****");
 	
 	__debug("App Ready, loading base system");
 	__debug("Adding version to app title bar");
-	$('.pvl-app-version').text(__app_version);
+	$('.pvl-app-version').text(__app_version + (__app_beta ? '_BETA' : ''));
 	__debug("Loading stations");
 	pvl_load_stations();
 	__debug("Hooking buttons");
@@ -30,15 +33,7 @@ function _hook_app_ready() {
 }
 
 function pvl_hook_buttons()
-{    
-    $('.exit').click(function(event){
-    	window.close();
-    });
-    
-    $('.minimize').click(function(event){
-    	chrome.app.window.current().minimize();
-    });
-	
+{    	
 	$('.app-error .app-error-dismiss').click(function(event){
 		if($(this).hasClass('btn-disabled'))
     		return;
@@ -159,6 +154,7 @@ function pvl_load_stations()
 				$('#container > .display').fadeOut();
 				$('#background > #welcome-message').fadeIn();
 				$('#background > #mascot').fadeIn();
+				$('#background > #logotype').fadeIn();
 				$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
 			}
 			else
@@ -166,6 +162,7 @@ function pvl_load_stations()
 				$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
 				$('#background > #welcome-message').fadeOut();
 				$('#background > #mascot').fadeOut();
+				$('#background > #logotype').fadeOut();
 				
 				$(this).addClass('playing');
 				$('.display > .station').attr('data-station-id', $(this).attr('data-id'));

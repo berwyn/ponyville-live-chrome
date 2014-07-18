@@ -11,7 +11,6 @@
 body {
 	background-color: #fff;
 	font-family: 'Open Sans', sans-serif;
-	padding-top: 20px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,19 +23,6 @@ p {
 
 b {
 	font-weight: 800;
-}
-
-.dragbar {
-	position: absolute;
-	width: 92%;
-	height: 20px;
-	background: #2C7FD2;
-	color: #fff;
-	-webkit-app-region: drag;
-	font-size: 10px;
-	line-height: 20px;
-	padding-left: 15px;
-	top: 0px;
 }
 
 .btn {
@@ -59,28 +45,6 @@ b {
 	padding: 5px 15px;
 }
 
-.exit {
-	position: absolute;
-	background: #cc3333;
-	background-image: url(../images/close.png);
-	background-size: cover;
-	width: 16px;
-	height: 16px;
-	top: 2px;
-	right: 5px;
-}
-
-.minimize {
-	position: absolute;
-	background: #cc3333;
-	background-image: url(../images/minimize.png);
-	background-size: cover;
-	width: 16px;
-	height: 16px;
-	top: 2px;
-	right: 26px;
-}
-
 /*************************************
  * STATION LIST
  *************************************/
@@ -94,8 +58,8 @@ b {
 .station_list {
 	overflow: scroll;
 	overflow-x: hidden;
-	height: 320px;
-	max-height: 320px;
+	height: 340px;
+	max-height: 340px;
 }
 
 .station_list .station {
@@ -357,7 +321,7 @@ b {
 	width: 100%;
 	background-size: 30%;
 	background-position-x: 613px;
-	background-position-y: 24px;
+	background-position-y: 55px;
 	background-repeat: no-repeat;
 }
 
@@ -369,6 +333,23 @@ b {
 	font-size: 25px;
 	color: rgb(255, 255, 255);
 	-webkit-text-stroke: 1px black;
+}
+
+#logotype {
+    position: absolute;    
+    right: -380px;
+    background-image: url('../images/logotype.png');
+    width: 100%;  height: 100%;  z-index: -2;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+
+#logotype p {
+    position: absolute;
+    margin-left: 92px;
+    top: 25px;
+    font-weight: 800;
+    font-size: 9px;
 }
 
 /*************************************
