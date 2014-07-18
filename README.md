@@ -8,20 +8,21 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.0.3_DEV-BETA
+v0.0.1.0_RELEASE
 
 **Because this software is still in beta some features and controllers may not work how they should!**
 
 Change List
 ----
 
-* **v0.0.1_DEV_BETA** - Initial Git DEV-BETA Channel Release
+* **v0.0.1.0_RELEASE** - Initial Release Version
+* **v0.0.3_DEV_BETA** - Added pause button to display | Changed update code to still update display even if no station is set to playing | Changed version in the manifest, versions ending with .1 are BETA versions and those with .0 are release versions | Fixed bug where the right side of the exit button wouldn't work
 * **v0.0.2_DEV_BETA** - Updated Selected Station Display Information | Added voting thumbs and score | Added handling for offline stations 
-* **v0.0.3_DEV_BETA** - Added pause button to display | Changed update code to still update display even if no station is set to playing | Changed version in the mnaifest, versions ending with .1 are BETA versions and those with .0 are release versions | Fixed bug where the right side of the exit button wouldn't work
+* **v0.0.1_DEV_BETA** - Initial Git DEV-BETA Channel Release
 
 Installation
 --------------
-To install clone this git repo, ```git clone https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, browse to ```chrome://extensions/``` and drag the ```src.crx``` onto your chrome browser window
+To install, clone this git repo, git clone ```https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, or down load the zip (on the left of this repo). Browse to ```chrome://extensions/``` in your Google Chrome Browser and drag the file ```packaged/ponyville.live.app.crx``` onto your chrome browser window
 
 License
 ----
