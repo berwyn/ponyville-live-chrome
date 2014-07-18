@@ -21,7 +21,7 @@ Change List
 
 Installation
 --------------
-To install clone this git repo, ```git clone https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, browse to ```chrome://extensions/``` and drag the ```src.crx``` onto your chrome browser window
+To install, clone this git repo, ```git clone https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, or down load the zip (on the left of this repo). Browse to ```chrome://extensions/``` in your Google Chrome Browser and drag the ```src.crx``` onto your chrome browser window
 
 License
 ----
