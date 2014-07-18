@@ -16,7 +16,7 @@ Change List
 ----
 
 * **v0.0.1_DEV_BETA** - Initial Git DEV-BETA Channel Release
-* **v0.0.2_DEV_BETA** - Updated Selected Station Display Information | Added voting thumbs and score | Added handling for offline stations
+* **v0.0.2_DEV_BETA** - Updated Selected Station Display Information | Added voting thumbs and score | Added handling for offline stations | Fixed bug where the right side of the exit button wouldn't work
 
 Installation
 --------------

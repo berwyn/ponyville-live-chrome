@@ -1,4 +1,4 @@
-var __app_version = "0.0.2_DEV-BETA";
+var __app_version = "0.0.3_DEV-BETA";
 
 /**DEBUG CODE**/
 function S4(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1);}
@@ -53,21 +53,27 @@ function pvl_hook_buttons()
 		$('li[id^="station_"] > audio').each(function(index, element){ this.volume = volume; });
 		
         $('.volume-bar-value').css('width', volume * 100 + '%');  
-        __debug("Volume Changed [" + volume * 100 + "%]")   
+        __debug("Volume Changed [" + volume * 100 + "%]");   
+    });
+    
+    $('.pause').click(function(event){
+    	event.preventDefault();
+    	$('.station_list .station').each(function(index){ $(this).removeClass('playing'); $(this).find('audio')[0].pause(); });
+    	__debug("Station Playback Stoped");
     });
     
     $('.mute').click(function(event){
     	event.preventDefault();
     	$('li[id^="station_"] > audio').each(function(index, element){ this.volume = 0; });
     	$('.volume-bar-value').css('width', '0%');
-    	__debug("Volume Changed [MUTE]")   
+    	__debug("Volume Changed [MUTE]");  
     });
     
     $('.volume-max').click(function(event){
     	event.preventDefault();
     	$('li[id^="station_"] > audio').each(function(index, element){ this.volume = 1; });
     	$('.volume-bar-value').css('width', '100%');
-    	__debug("Volume Changed [MAX]")   
+    	__debug("Volume Changed [MAX]");   
     });
     
     
@@ -162,6 +168,7 @@ function pvl_load_stations()
 				$('#background > #mascot').fadeOut();
 				
 				$(this).addClass('playing');
+				$('.display > .station').attr('data-station-id', $(this).attr('data-id'));
 				$(this).find('audio')[0].load();
 				$(this).find('audio')[0].play();
 				
@@ -214,7 +221,7 @@ function pvl_update_stations()
 				$('li[id="station_'+station_data.code+'"] > .nowplaying-song').text(station_data.title);
 				$('li[id="station_'+station_data.code+'"] > .nowplaying-song').attr('title', station_data.title);				
 				
-				$('li[id="station_'+station_data.code+'"] > .nowplaying-artist').text(station_data.artist);
+				$('li[id="station_'+station_data.code+'"] > .nowplaying-artist').text(station_data.artist); 
 				$('li[id="station_'+station_data.code+'"] > .nowplaying-artist').attr('title', station_data.artist);
 				
 				if(station_data.event != null)
@@ -231,7 +238,7 @@ function pvl_update_stations()
 				}
 				
 				
-				if($('li[id="station_'+station_data.code+'"]').hasClass("playing"))
+				if(station_data.id == $('.display > .station').attr('data-station-id'))
 				{
 					$('.display > .station > img').attr('src', $('li[id="station_'+station_data.code+'"] > img').attr('src'));
 					
