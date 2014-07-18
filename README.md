@@ -8,7 +8,7 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.0.2_DEV-BETA
+v0.0.3_DEV-BETA
 
 **Because this software is still in beta some features and controllers may not work how they should!**
 
