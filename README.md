@@ -8,13 +8,14 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.1.3
+v0.1.4
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
+* **v0.1.4** - Added code to refresh vote buttons on song change to remove 'selected'
 * **v0.1.3** - Toned down the 'full on' kind of style that offline stations had | Turned the font size of station titles down on the display due to cliping
 * **v0.1.2** - Fixed bug where notifications would continue even after playback had been stopped
 * **v0.1.1** - Removed the stupid .0/.1 release version rule | Removed un-needed minor version value | Removed custom title bar and changed to native system style | Added branding to the start display

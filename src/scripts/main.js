@@ -1,4 +1,4 @@
-var __app_version = "0.1.3";
+var __app_version = "0.1.4";
 var __app_beta = false;
 
 /**DEBUG CODE**/
@@ -257,6 +257,8 @@ function pvl_update_stations()
 						$('.display .controls .vote .nowplaying-score').attr('data-id', station_data.song_sh_id);
 						$('.display .controls .vote .nowplaying-score').attr('data-orginal', station_data.song_score);
 						$('.display .controls .vote .nowplaying-score').text(station_data.song_score);
+						
+						$('.display .controls .vote a').each(function(index){$(this).removeClass("selected")});
 						
 						_last_played_song = station_data.song_sh_id;
 						

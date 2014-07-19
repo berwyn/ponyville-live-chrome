@@ -1,7 +1,7 @@
 {
 	"name":"Ponyville Live! Desktop App",
 	"description":"An all in one location for all your favourite pony stations!",
-	"version": "0.1.2",
+	"version": "0.1.4",
 	"manifest_version": 2,
 	"app": {
 		"background": {
