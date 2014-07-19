@@ -88,9 +88,9 @@ b {
 }
 
 .station_list .station.offline {
-	background: #464646;
-	text-shadow: 0 1px 0 #434343;
-	color: #aaa;
+	background: #c6c6c6;
+	text-shadow: 0 1px 0 #939393;
+	color: #444 !important;
 	cursor: default;
 }
 
@@ -293,7 +293,7 @@ b {
     margin-right: -10px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    padding: 15px;
+    padding: 20px 15px 10px 15px;
     height: 54px;
     color: #fff;
 }

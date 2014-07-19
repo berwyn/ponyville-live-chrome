@@ -1,4 +1,4 @@
-var __app_version = "0.1.2";
+var __app_version = "0.1.3";
 var __app_beta = false;
 
 /**DEBUG CODE**/
