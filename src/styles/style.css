@@ -167,6 +167,16 @@ b {
 	padding-top: 2%;
 }
 
+.display .player_controls {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: 50%;
+	border: none !important;
+	border-radius: 0px !important;
+	border-top: #444 1px solid !important;
+}
+
 .display .player_controls .volume-bar {
 	width: 65%;
 	height: 16px;
@@ -284,7 +294,7 @@ b {
 }
 
 .display .station {
-    height: 105px;
+    height: 85px;
 }
 
 .display .station .info {
