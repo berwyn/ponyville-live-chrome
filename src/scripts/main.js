@@ -165,6 +165,7 @@ function pvl_load_stations() {
 				$('#background > #welcome-message').fadeIn();
 				$('#background > #mascot').fadeIn();
 				$('#background > #logotype').fadeIn();
+				$('#background > #facebook').fadeIn();
 				$('.station_list .station').each(function(index) {
 					$(this).removeClass('playing');
 					$(this).find('audio')[0].pause();
@@ -178,6 +179,7 @@ function pvl_load_stations() {
 				$('#background > #welcome-message').fadeOut();
 				$('#background > #mascot').fadeOut();
 				$('#background > #logotype').fadeOut();
+				$('#background > #facebook').fadeOut();
 
 				$(this).addClass('playing');
 				$('.display > .station').attr('data-station-id', $(this).attr('data-id'));
