@@ -8,13 +8,14 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.1.6
+v0.1.7
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
+* **v0.1.7** - Added facebook button to the app
 * **v0.1.6** - Fixed miss-typed jQuery selectors which were effecting voting | Removed 'update_url' from the manifest designed for the chrome store
 * **v0.1.5** - Fixed notifications to make sure they get cleared after 5 seconds | Cleaned up the jQuery code | moved the player controls to the bottom of the display | Added auto update to allow update pulls from the github repo
 * **v0.1.4** - Added code to refresh vote buttons on song change to remove 'selected'

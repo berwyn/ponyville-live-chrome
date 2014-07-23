@@ -362,6 +362,18 @@ b {
     font-size: 9px;
 }
 
+#facebook {
+    position: absolute;
+    bottom: 10px;
+    right: 260px;
+    cursor: pointer;
+    z-index: 99999;
+}
+
+#facebook img {
+    cursor: pointer;  z-index: 99999;
+}
+
 /*************************************
  * APP ERROR
  *************************************/
