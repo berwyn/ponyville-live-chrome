@@ -1,4 +1,4 @@
-var __app_version = "0.1.5";
+var __app_version = "0.1.6";
 var __app_beta = false;
 
 /**DEBUG CODE**/
@@ -247,9 +247,9 @@ function pvl_update_stations() {
 
 			if (station_data.id == $('.display > .station').attr('data-station-id')) {
 				
-				display_station = $('.display > .station');
-				display_nowplaying = $('.display > .nowplaying');
-				display_controls = $('.display > .controls');
+				display_station = $('.display .station');
+				display_nowplaying = $('.display .nowplaying');
+				display_controls = $('.display .controls');
 				
 				display_station.find('img').attr('src', station_li.find('img').attr('src'));
 

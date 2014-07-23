@@ -1,7 +1,7 @@
 {
 	"name":"Ponyville Live! Desktop App",
 	"description":"An all in one location for all your favourite pony stations!",
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"manifest_version": 2,
 	"app": {
 		"background": {
@@ -9,7 +9,6 @@
 		}
 	},
 	"icons": {"16": "images/pvl_16.png", "32": "images/pvl_32.png", "64": "images/pvl_64.png", "128": "images/pvl_128.png"},
-	"permissions": [ "notifications", "*://ponyvillelive.com/*", "*://bronytunes.com/*" ],
-	"update_url": "https://raw.githubusercontent.com/TheAuzzieBrony/Ponyville-Live--Desktop-App/master/packaged/auto-update.xml"
+	"permissions": [ "notifications", "*://ponyvillelive.com/*", "*://bronytunes.com/*" ]
 }
  
