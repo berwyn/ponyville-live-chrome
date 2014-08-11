@@ -26,11 +26,28 @@ b {
 }
 
 .btn {
-	background-color: rgba(19, 56, 93, .85);
-	border: 0px none #000;
-	color: #fff;
-	padding: 5px 15px;
-	transition: background-color .15s linear;
+	display: inline-block;
+	padding: 4px 12px;
+	margin: 0px;
+	font-size: 11px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	color: #FFF;
+	text-shadow: 0 1px 1px rgba(40, 40, 40, 0.75);
+	background-image: linear-gradient(to bottom, #2C7FD2, #165787);
+	background-repeat: repeat-x;
+	border: none;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+}
+
+.btn.selected {
+	background-image: linear-gradient(to bottom, #165787, #165787);
+}
+
+.btn.btn-disabled {
+	background-image: linear-gradient(to bottom, #444, #444) !important;
 }
 
 .btn:hover {
@@ -38,28 +55,32 @@ b {
 	cursor: pointer;
 }
 
-.btn-disabled {
-	background-color: rgba(40, 40, 40, .85);
-	border: 0px none #000;
-	color: #fff;
-	padding: 5px 15px;
+/*************************************
+ * SELECT BAR
+ *************************************/
+
+.select_bar {
+	max-width: 382px;
+	width: 50%;
+	float: left;
+}
+
+.select_bar .list_controls {
+	height: 40px;
+	background: rgba(40, 40, 40, 0.8);
+	text-align: center;
+	padding-top: 10px;
 }
 
 /*************************************
  * STATION LIST
  *************************************/
 
-.select_bar {
-	max-width: 50%;
-	width: 50%;
-	float: left;
-}
-
 .station_list {
 	overflow: scroll;
 	overflow-x: hidden;
-	height: 340px;
-	max-height: 340px;
+	height: 290px;
+	max-height: 290px;
 }
 
 .station_list .station {
@@ -92,6 +113,14 @@ b {
 	text-shadow: 0 1px 0 #939393;
 	color: #444 !important;
 	cursor: default;
+}
+
+.stream_list .stream.offline h4 > .nowplaying-info > .nowplaying-listeners {
+	color: #444 !important;
+}
+
+.stream_list .stream.offline .genre-info {
+	color: #444 !important;
 }
 
 .station_list .station.playing > h4 > .nowplaying-info > .nowplaying-listeners {
@@ -158,6 +187,112 @@ b {
 }
 
 /*************************************
+ * STREAM LIST
+ *************************************/
+
+.stream_list {
+	overflow: scroll;
+	overflow-x: hidden;
+	height: 290px;
+	max-height: 290px;
+}
+
+.stream_list .stream {
+	background: #f6f6f6;
+	border-color: #ddd;
+	color: #333;
+	text-shadow: 0 1px 0 #f3f3f3;
+	height: 72px;
+	border-bottom: 1px solid #ccc;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.stream_list .stream:hover {
+	background: #e1e1e1;
+}
+
+.stream_list .stream.live {
+	height: 82px;
+}
+
+.stream_list .stream.playing {
+	background-color: #38c;
+	color: #fff;
+	text-shadow: none;
+}
+
+.stream_list .stream.offline {
+	background: #c6c6c6;
+	text-shadow: 0 1px 0 #939393;
+	color: #444 !important;
+	cursor: default;
+}
+
+.stream_list .stream.playing > h4 > .nowplaying-info > .nowplaying-listeners {
+	color: #ccc;
+}
+
+.stream_list .stream.playing .genre-info {
+	color: #ccc;
+}
+
+.stream_list .stream img {
+	max-width: 64px;
+	float: left;
+	margin-right: 10px;
+}
+
+.stream_list .stream h4 {
+	font-weight: 900;
+	font-size: 14px;
+}
+
+.stream_list .stream h4 > .nowplaying-info > .nowplaying-listeners {
+	font-size: 12px;
+	font-weight: 600;
+	padding-left: 5px;
+	color: #aaa;
+}
+
+.stream_list .stream .genre-info {
+	font-weight: 400;
+	font-size: 12px;
+	color: #aaa;
+}
+
+.stream_list .stream .nowplaying-onair {
+	font-size: 12px;
+	line-height: 15px;
+	color: #AAA;
+	font-weight: 800;
+	white-space: nowrap;
+	width: 220px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.stream_list .stream .nowplaying-song {
+	font-weight: 800;
+	font-size: 13px;
+	white-space: nowrap;
+	width: 220px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.stream_list .stream.live .nowplaying-artist {
+	margin-left: 74px;
+}
+
+.stream_list .stream .nowplaying-artist {
+	white-space: nowrap;
+	width: 220px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/*************************************
  * STATION DISPLAY
  *************************************/
 
@@ -167,7 +302,7 @@ b {
 	padding-top: 2%;
 }
 
-.display .player_controls {
+.display #station .player_controls {
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
@@ -177,7 +312,7 @@ b {
 	border-top: #444 1px solid !important;
 }
 
-.display .player_controls .volume-bar {
+.display #station .player_controls .volume-bar {
 	width: 65%;
 	height: 16px;
 	float: left;
@@ -185,7 +320,7 @@ b {
 	background-color: #222;
 }
 
-.display .player_controls .volume-bar .bar {
+.display #station .player_controls .volume-bar .bar {
 	width: 0%;
 	height: 100%;
 	color: #ffffff;
@@ -208,52 +343,52 @@ b {
 	background-image: linear-gradient(to bottom, #149bdf, #0480be);
 }
 
-.display .player_controls .pause {
+.display #station .player_controls .pause {
 	float: left;
 	margin-top: -1px;
 	margin-right: 10px;
 	color: #38c;
 }
 
-.display .player_controls .mute {
+.display #station .player_controls .mute {
 	float: left;
 	margin-right: 5px;
 	color: #38c;
 }
 
-.display .player_controls .volume-max {
+.display #station .player_controls .volume-max {
 	margin-left: 5px;
 	color: #38c;
 }
 
-.display .player_controls .volume-max {
+.display #station .player_controls .volume-max {
 	margin-left: 5px;
 	color: #38c;
 }
 
-.display > .player_controls > .controls {
+.display #station .player_controls > .controls {
 	padding: 10px;
 }
 
-.display .vote {
+.display #station .vote {
 	float: right;
 	margin-top: -17px;
 	margin-right: 10px;
 }
 
-.display .vote .vote-up {
+.display #station .vote .vote-up {
 	color: #9FB79D;
 }
 
-.display .vote .vote-up.selected {
+.display #station .vote .vote-up.selected {
 	color: #45C126;
 }
 
-.display .vote .vote-down {
+.display #station .vote .vote-down {
 	color: #B79D9D;
 }
 
-.display .vote .vote-down.selected {
+.display #station .vote .vote-down.selected {
 	color: #D51C1C;
 }
 
@@ -276,15 +411,15 @@ b {
 	font-weight: 800;
 }
 
-.display .nowplaying-info .nowplaying-song {
+.display #station .nowplaying-info .nowplaying-song {
 	font-weight: 800;
 }
 
-.display .nowplaying-info {
+.display #station .nowplaying-info {
 	padding: 5px;
 }
 
-.display .station img {
+.display #station .station img {
     max-width: 64px;
     float: left;
     padding: 10px;
@@ -293,11 +428,11 @@ b {
     border-radius: 5px;
 }
 
-.display .station {
+.display #station .station {
     height: 85px;
 }
 
-.display .station .info {
+.display #station .station .info {
     background: rgba(19, 56, 93, 0.7);
     margin-left: 100px;
     margin-right: -10px;
@@ -320,9 +455,7 @@ b {
 	width: 100%;
 	height: 100%;
 	z-index: -2;
-	background-size: 80%;
-	background-position-y: -130px;
-	background-position-x: 260px;
+	background-position-y: -310px;
 }
 
 #mascot {

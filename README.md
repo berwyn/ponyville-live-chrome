@@ -15,6 +15,7 @@ v0.1.7
 Change List
 ----
 
+* **v0.1.10_BETA** - v0.2.0 Pre-Release | Fix to handle new update to the PVL public API | Total code re-write
 * **v0.1.7** - Added facebook button to the app
 * **v0.1.6** - Fixed miss-typed jQuery selectors which were effecting voting | Removed 'update_url' from the manifest designed for the chrome store
 * **v0.1.5** - Fixed notifications to make sure they get cleared after 5 seconds | Cleaned up the jQuery code | moved the player controls to the bottom of the display | Added auto update to allow update pulls from the github repo
