@@ -8,7 +8,7 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.1.7
+v0.1.10_BETA
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
