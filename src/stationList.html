@@ -1,0 +1,8 @@
+<ul class="station-list">
+	<li ng-repeat="station in stationList.stations">
+		<img alt="{{station.name}}" ng-src="{{ stationList.imgUrls[station.shortcode] }}">
+		<div class="details">
+			<h4>{{station.name}}</h4>
+		</div>
+	</li>
+</ul>

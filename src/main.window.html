@@ -1,81 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html ng-csp ng-app="PVL">
 	<head>
 		<link rel="stylesheet" type="text/css" href="styles/font.css">
 		<link rel="stylesheet" type="text/css" href="styles/font-awesome.css">
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
 
 		<script src="scripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+		<script src="scripts/angular.min.js" type="text/javascript"></script>
+		<script src="scripts/app.js" type="text/javascript"></script>
 	</head>
-	<body>
-		<div id="container">
-			<div class="select_bar">
-				<div class="list_controls">
-					<input type="button" class="btn selected" id="radio" value="Radio Stations">
-					<input type="button" class="btn btn-disabled" id="stream" value="Video Streams">
-					<input type="button" class="btn btn-disabled" id="settings" value="Settings">
-				</div>
-				<ul class="station_list"></ul>
-				<ul class="stream_list"></ul>
-			</div>
-
-			<div class="display" style="display: none;">
-				<div id="station">
-					<div class="station">
-						<img>
-
-						<div class="info">
-							<h1 style="font-weight:800;font-size:18px;"></h1>
-							<h4 style="font-size:12px;" class="genre-info"></h4>
-						</div>
-					</div>
-
-					<div class="nowplaying panel">
-						<div class="panel-top">
-							<h4>Now Playing - <span class="nowplaying-station-listeners"></span></h4>
-						</div>
-						<div class="nowplaying-info">
-							<p class="nowplaying-song"></p>
-							<p class="nowplaying-artist"></p>
-						</div>
-					</div>
-
-					<div class="player_controls panel">
-						<div class="controls">
-							<div class="volume">
-								<a href="javascript:;" class="pause" tabindex="1" title="Stop Playback"><i class="fa fa-pause fa-lg"></i></a>
-								<a href="javascript:;" class="mute" tabindex="1" title="Mute"><i class="fa fa-volume-off"></i></a>
-								<div class="volume-bar progress">
-									<div class="volume-bar-value bar" style="width: 100%;"></div>
-								</div>
-								<a href="javascript:;" class="volume-max" tabindex="1" title="Max volume"><i class="fa fa-volume-up"></i></a>
-							</div><!-- volume controlls -->
-
-							<div class="vote">
-								<a href="javascript:;" class="vote-down" tabindex="1" title="Vote This Song Down"><i class="fa fa-thumbs-down"></i></a>
-								<div style="display:inline;" class="nowplaying-score">
-									100
-								</div>
-								<a href="javascript:;" class="vote-up" tabindex="1" title="Vote This Song Up"><i class="fa fa-thumbs-up"></i></a>
-							</div><!-- vote controlls -->
-						</div>
-					</div>
-				</div>
-				<div id="video">
-				</div>
-			</div>
-		</div>
-
-		<div class="app-error" style="display: none;">
-			<h1 class="app-error-title"></h1>
-			<p class="app-error-body"></p>
-			<input type="button" class="app-error-dismiss btn" value="Dismiss">
-		</div>
-
+	<body ng-controller="MainCtrl as main">
+		<station-list stations="main.stations"></station-list>
 		<div id="background">
 			<div id="logotype">
 				<p>
-					App Version: <span class="pvl-app-version"></span>
+					App Version: {{main.appVersion}}
 				</p>
 			</div>
 			<p id="welcome-message">
@@ -85,10 +24,5 @@
 		</div>
 
 		<a id="facebook" target="_blank" href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487"><img title="Like and Follow us on Facebook to keep up to date with changes" src="images/facebook.png"></a>
-
-		<script src="scripts/settings.js" type="text/javascript"></script>
-		<script src="scripts/debug.js" type="text/javascript"></script>
-		<script src="scripts/functions.js" type="text/javascript"></script>
-		<script src="scripts/app.js" type="text/javascript"></script>
 	</body>
 </html>

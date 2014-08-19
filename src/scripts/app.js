@@ -1,35 +1,95 @@
-//The start of the Chrome Application
-log("Starting Ponyville Live Desktop App v" + app_version + (app_beta ? '_BETA' : ''));
+angular
+  .module('PVL', []);
 
-//Sets the default display width and height to make sure no problems occur
-log("Fixing window dimensions");
-chrome.app.window.get('pvldesktopapp').innerBounds.width = 764;
-chrome.app.window.get('pvldesktopapp').innerBounds.height = 340;
+var config = function config($compileProvider) {
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(blob:|data:image)|chrome-extension:/);
+};
 
-//Gets the GUID set for this computer (used in anon stats)
-log("Getting user GUID");
-//log("Current user GUID: " + guid());
+angular
+  .module('PVL')
+  .config(config);
+  
+var MainCtrl = function MainCtrl(PvlService) {
+  var vm = this;
 
-//Gets basic information about the current system
-var system_stats = getStats();
-debug("Application Version: " + system_stats['version']);
-debug("Operating System: " + system_stats['OS']);
-debug("Operating System Version: " + system_stats['OSversion']);
+  vm.appVersion = app_version + (app_beta? '_BETA' : '');
+  vm.stations = [];
+  vm.stationCache = {
+    audio: [],
+    video: []
+  }
 
-//Checks for jQuery as it is required by the application code
-log("Checking if jQuery is loaded");
-if(typeof jQuery == "undefined") {
-	throw { name: 'Fatal Error!', message: 'jQuery was not loaded or could not be found!' };
-}
+  PvlService
+    .getStations('audio')
+    .then(function(stations) {
+      vm.stations = stations;
+      vm.stationCache.audio = stations;
+    })
+    .catch(function(err) {
+      // TODO: Handle
+    });
+};
 
-//Injects the application version to the display on the right
-log("Injecting application version into display");
-$('.pvl-app-version').text(app_version + ( app_beta ? '_BETA' : ''));
+angular
+  .module('PVL')
+  .controller('MainCtrl', MainCtrl);
+  
+var PvlService = function PvlService($http, $q) {
+  var ServiceHost = {};
+  ServiceHost.apiBase = "https://ponyvillelive.com/api";
 
-//Loads click handlers for links and buttons through out the application
-log("Loading button handlers");
-loadButtonHandlers();
+  ServiceHost.getStations = function getStations(type) {
+    var deferred = $q.defer();
+    
+    $http
+      .get(this.apiBase + "/station/list/category/" + type)
+      .success(function(json, status, headers, config) {
+        deferred.resolve(json.result);
+      })
+      .error(function(data, status, headers, config) {
+        deferred.reject(data);
+      });
+    
+    return deferred.promise;
+  };
 
-//Loads stations and streams into their respective lists
-log("Loading stations and streams");
-loadStationsIntoList();
+  return ServiceHost;
+};
+
+angular
+  .module('PVL')
+  .service('PvlService', PvlService);
+
+var StationListCtrl = function StationListCtrl($scope, $http, $sce) {
+  var vm = this;
+  vm.stations = $scope.stations;
+  vm.imgUrls = {};
+  $scope
+    .$watchCollection('stations', function(replace, old) {
+      vm.stations = replace;
+      replace.forEach(function(station) {
+        $http
+          .get('http:'+station.image_url, {responseType: 'blob'})
+          .success(function(response, status, headers, config) {
+            var fileUrl = URL.createObjectURL(response);
+            vm.imgUrls[station.shortcode] = $sce.trustAsResourceUrl(fileUrl);
+          });
+      });
+    });
+};
+
+var StationListDirective = function StationListDirective() {
+  return {
+    restrict: 'E',
+    templateUrl: '/stationList.html',
+    scope: {
+      stations: '='
+    },
+    controller: StationListCtrl,
+    controllerAs: 'stationList'
+  }
+};
+
+angular
+  .module('PVL')
+  .directive('stationList', StationListDirective);
