@@ -1,14 +1,23 @@
+window.less = {
+  async: true,
+  fileAsync: true
+}
+
+var app_version = chrome.runtime.getManifest().version,
+    app_beta    = true;
+
 angular
   .module('PVL', []);
 
 var config = function config($compileProvider) {
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(blob:|data:image)|chrome-extension:/);
+  $compileProvider
+    .imgSrcSanitizationWhitelist(/^\s*(blob:|data:image)|chrome-extension:/);
 };
 
 angular
   .module('PVL')
   .config(config);
-  
+
 var MainCtrl = function MainCtrl(PvlService) {
   var vm = this;
 
@@ -33,25 +42,40 @@ var MainCtrl = function MainCtrl(PvlService) {
 angular
   .module('PVL')
   .controller('MainCtrl', MainCtrl);
-  
+
 var PvlService = function PvlService($http, $q) {
   var ServiceHost = {};
   ServiceHost.apiBase = "https://ponyvillelive.com/api";
 
   ServiceHost.getStations = function getStations(type) {
     var deferred = $q.defer();
-    
+
     $http
       .get(this.apiBase + "/station/list/category/" + type)
-      .success(function(json, status, headers, config) {
+      .success(function(json) {
         deferred.resolve(json.result);
       })
-      .error(function(data, status, headers, config) {
-        deferred.reject(data);
+      .error(function(err) {
+        deferred.reject(err);
       });
-    
+
     return deferred.promise;
   };
+
+  ServiceHost.getNowPlaying = function getNowPlaying() {
+    var deferred = $q.defer();
+
+    $http
+      .get(this.apiBase + '/nowplaying')
+      .success(function(json) {
+        deferred.resolve(json.result);
+      })
+      .error(function(err) {
+        deferred.reject(err);
+      });
+
+    return deferred.promise;
+  }
 
   return ServiceHost;
 };
@@ -60,10 +84,36 @@ angular
   .module('PVL')
   .service('PvlService', PvlService);
 
-var StationListCtrl = function StationListCtrl($scope, $http, $sce) {
+var StationListCtrl = function StationListCtrl($scope, $http, $sce, PvlService) {
   var vm = this;
   vm.stations = $scope.stations;
   vm.imgUrls = {};
+  vm.nowPlaying = {};
+  vm.selected = '';
+
+  vm.setSelected = function setSelected(index) {
+    vm.selected = vm.stations[index].shortcode;
+  }
+
+  var intervalId = setInterval(function() {
+    PvlService
+      .getNowPlaying()
+      .then(function(playingMeta) {
+        vm.nowPlaying = playingMeta;
+      });    
+  }, 3000);
+
+  angular
+    .module('PVL')
+    .value('intervalId', intervalId);
+
+  chrome
+    .runtime
+    .onSuspend
+    .addListener(function() {
+      clearInterval(angular.module('PVL').value('intervalId'));
+    });
+
   $scope
     .$watchCollection('stations', function(replace, old) {
       vm.stations = replace;

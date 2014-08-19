@@ -1,8 +1,11 @@
 <ul class="station-list">
-	<li ng-repeat="station in stationList.stations">
-		<img alt="{{station.name}}" ng-src="{{ stationList.imgUrls[station.shortcode] }}">
+	<li class="station" ng-repeat="station in stationList.stations" ng-class="{selected: (station.shortcode === stationList.selected)}" ng-click="stationList.setSelected($index)">
+		<img class="icon" alt="{{station.name}}" ng-src="{{ stationList.imgUrls[station.shortcode] }}">
 		<div class="details">
-			<h4>{{station.name}}</h4>
+			<span class="name">{{station.name}}</span>
+			<span class="genre">{{station.genre}}</span>
+			<span class="now-playing-title">{{stationList.nowPlaying[station.shortcode].current_song.title}}</span>
+			<span class="now-playing-artist">{{stationList.nowPlaying[station.shortcode].current_song.artist}}</span>
 		</div>
 	</li>
 </ul>
