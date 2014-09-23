@@ -1,0 +1,9 @@
+<div class="mediaPlayer">
+	<div class="playerControls">
+		<button class="btn blank-btn" type="button" ng-click="mediaPlayer.togglePlayback()">
+			<i class="fa" ng-class="{'fa-play': mediaPlayer.isPlaying, 'fa-pause': !mediaPlayer.isPlaying}"></i>
+		</button>
+	</div>
+	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" audio player></audio>
+	<h1>{{mediaPlayer.station.name}}</h1>
+</div>

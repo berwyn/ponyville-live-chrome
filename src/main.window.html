@@ -9,22 +9,25 @@
 		<script src="scripts/angular.min.js" type="text/javascript"></script>
 		<script src="scripts/app.js" type="text/javascript"></script>
 	</head>
-	<body ng-controller="MainCtrl as main">
-		<station-list stations="main.stations"></station-list>
-		<div class="container">
-			
-		</div>
-		<!--<div id="background">
-			<div id="logotype">
-				<p>App Version: {{main.appVersion}}</p>
+	<body ng-controller="MainCtrl as main" class="flex flex-row">
+		<station-list class="flex-base" stations="main.stations" selected="main.selected"></station-list>
+		<div class="container flex flex-column flex-grow">
+			<div class="flex-grow">
+				<media-player station="main.selected"></media-player>
 			</div>
+			<footer class="flex-base">
+				<a class="pull-left" target="_blank" href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487">
+					<img title="Like and Follow us on Facebook to keep up to date with changes" src="images/facebook.png">
+				</a>
+				<h5 class="pull-right">App Version: {{main.appVersion}}</h5>
+			</footer>
+		</div>
+		<!--
 			<p id="welcome-message">
 				Select A Station!
 			</p>
 			<div id="mascot"></div>
-		</div>
-
-		<a id="facebook" target="_blank" href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487"><img title="Like and Follow us on Facebook to keep up to date with changes" src="images/facebook.png"></a>-->
+		-->
 		<script src="scripts/less.min.js" type="text/javascript"></script>
 	</body>
 </html>

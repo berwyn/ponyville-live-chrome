@@ -9,16 +9,16 @@ var app_version = chrome.runtime.getManifest().version,
 angular
   .module('PVL', []);
 
-var config = function config($compileProvider) {
+function config($compileProvider) {
   $compileProvider
     .imgSrcSanitizationWhitelist(/^\s*(blob:|data:image)|chrome-extension:/);
-};
+}
 
 angular
   .module('PVL')
   .config(config);
 
-var MainCtrl = function MainCtrl(PvlService) {
+function MainCtrl(PvlService) {
   var vm = this;
 
   vm.appVersion = app_version + (app_beta? '_BETA' : '');
@@ -27,6 +27,7 @@ var MainCtrl = function MainCtrl(PvlService) {
     audio: [],
     video: []
   }
+  vm.selected = null;
 
   PvlService
     .getStations('audio')
@@ -37,13 +38,13 @@ var MainCtrl = function MainCtrl(PvlService) {
     .catch(function(err) {
       // TODO: Handle
     });
-};
+}
 
 angular
   .module('PVL')
   .controller('MainCtrl', MainCtrl);
 
-var PvlService = function PvlService($http, $q) {
+function PvlService($http, $q, $sce) {
   var ServiceHost = {};
   ServiceHost.apiBase = "https://ponyvillelive.com/api";
 
@@ -51,7 +52,25 @@ var PvlService = function PvlService($http, $q) {
     var deferred = $q.defer();
 
     $http
-      .get(this.apiBase + "/station/list/category/" + type)
+      .get(this.apiBase + "/station/list/category/" + type, {
+        transformResponse: function(data) {
+          var payload = JSON.parse(data),
+              stations = payload.result;
+
+          stations.forEach(function(station) {
+            station.safe_img_url = '';
+            station.stream_url = $sce.trustAsResourceUrl(station.stream_url);
+            $http
+              .get(station.image_url, {responseType: 'blob'})
+              .success(function(response, status, headers, config) {
+                var fileUrl = URL.createObjectURL(response);
+                station.safe_img_url = $sce.trustAsResourceUrl(fileUrl);
+              });
+          });
+          
+          return payload;
+        }
+      })
       .success(function(json) {
         deferred.resolve(json.result);
       })
@@ -78,21 +97,22 @@ var PvlService = function PvlService($http, $q) {
   }
 
   return ServiceHost;
-};
+}
 
 angular
   .module('PVL')
   .service('PvlService', PvlService);
 
-var StationListCtrl = function StationListCtrl($scope, $http, $sce, PvlService) {
+function StationListCtrl(PvlService) {
   var vm = this;
-  vm.stations = $scope.stations;
+
   vm.imgUrls = {};
   vm.nowPlaying = {};
-  vm.selected = '';
+  vm.currentIndex = null;
 
   vm.setSelected = function setSelected(index) {
-    vm.selected = vm.stations[index].shortcode;
+    vm.selected = vm.stations[index];
+    vm.currentIndex = index;
   }
 
   var intervalId = setInterval(function() {
@@ -113,33 +133,48 @@ var StationListCtrl = function StationListCtrl($scope, $http, $sce, PvlService) 
     .addListener(function() {
       clearInterval(angular.module('PVL').value('intervalId'));
     });
+}
 
-  $scope
-    .$watchCollection('stations', function(replace, old) {
-      vm.stations = replace;
-      replace.forEach(function(station) {
-        $http
-          .get('http:'+station.image_url, {responseType: 'blob'})
-          .success(function(response, status, headers, config) {
-            var fileUrl = URL.createObjectURL(response);
-            vm.imgUrls[station.shortcode] = $sce.trustAsResourceUrl(fileUrl);
-          });
-      });
-    });
-};
-
-var StationListDirective = function StationListDirective() {
+function StationListDirective() {
   return {
     restrict: 'E',
     templateUrl: '/stationList.html',
     scope: {
-      stations: '='
+      stations: '=',
+      selected: '='
     },
     controller: StationListCtrl,
-    controllerAs: 'stationList'
+    controllerAs: 'stationList',
+    bindToController: true
   }
-};
+}
 
 angular
   .module('PVL')
   .directive('stationList', StationListDirective);
+
+function MediaPlayerCtrl() {
+  var vm = this;
+
+  vm.isPlaying = false;
+  vm.togglePlayback = function togglePlayback() {
+    
+  }
+}
+
+function MediaPlayerDirective() {
+  return {
+    restrict: 'E',
+    templateUrl: '/mediaPlayer.html',
+    scope: {
+      station: '=',
+    },
+    controller: MediaPlayerCtrl,
+    controllerAs: 'mediaPlayer',
+    bindToController: true
+  };
+}
+
+angular
+  .module('PVL')
+  .directive('mediaPlayer', MediaPlayerDirective);
