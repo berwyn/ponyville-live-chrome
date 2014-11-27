@@ -13,7 +13,8 @@ gulp.task('default', [
     'html',
     'images',
     'fonts',
-    'manifest'
+    'manifest',
+    'background'
 ]);
 
 gulp.task('clean', function(cb) {
@@ -22,8 +23,9 @@ gulp.task('clean', function(cb) {
 
 gulp.task('js', function() {
     var files = [
-    '!src/scripts/background.js',
-    'src/**/*.js'
+        '!src/scripts/background.js',
+        'src/scripts/app.js', // Defines the module, so needs to come 1st
+        'src/scripts/*.js'
     ];
 
     return gulp.src(files)
@@ -38,7 +40,10 @@ gulp.task('js', function() {
 gulp.task('vendor', function() {
     var files = [
         'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/angular/angular.min.js'
+        'bower_components/angular/angular.min.js',
+        'bower_components/lodash/dist/lodash.min.js',
+        'bower_components/moment/min/moment-with-locales.min.js',
+        'bower_components/socket.io-client/socket.io.js'
     ];
 
     return gulp.src(files)
@@ -56,7 +61,7 @@ gulp.task('sass', function() {
     return gulp.src(files)
         .pipe(sourcemaps.init())
         .pipe(sass())
-        .pipe(concat('app.css'))
+        .pipe(concat('mane.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('compiled/styles'));
 });
@@ -84,4 +89,9 @@ gulp.task('fonts', function() {
 gulp.task('manifest', function() {
     return gulp.src('src/manifest.json')
         .pipe(gulp.dest('compiled'));
+});
+
+gulp.task('background', function() {
+    return gulp.src('src/scripts/background.js')
+        .pipe(gulp.dest('compiled/scripts'));
 });

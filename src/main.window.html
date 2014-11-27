@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html ng-csp ng-app="PVL">
 	<head>
-		<link rel="stylesheet" type="text/css" href="styles/font.css">
-		<link rel="stylesheet" type="text/css" href="styles/font-awesome.css">
-		<link rel="stylesheet/less" type="text/css" href="styles/mane.less" />
+		<link rel="stylesheet" type="text/css" href="styles/mane.css" />
 
 		<script src="scripts/vendor.js" type="text/javascript"></script>
 		<script src="scripts/app.js" type="text/javascript"></script>
 	</head>
 	<body ng-controller="MainCtrl as main" class="flex flex-row">
-		<station-list class="flex-base" stations="main.stations" selected="main.selected"></station-list>
+		<pvl-station-list class="flex-base" stations="main.stations" selected="main.selected">
+		</pvl-station-list>
 		<div class="container flex flex-column flex-grow">
 			<div class="flex-grow">
-				<media-player station="main.selected"></media-player>
+				<pvl-media-player station="main.selected">
+				</pvl-media-player>
 			</div>
 			<footer class="flex-base">
 				<a class="pull-left" target="_blank" href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487">
@@ -27,6 +27,5 @@
 			</p>
 			<div id="mascot"></div>
 		-->
-		<script src="scripts/less.min.js" type="text/javascript"></script>
 	</body>
 </html>
