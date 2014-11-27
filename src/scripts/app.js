@@ -1,8 +1,3 @@
-window.less = {
-  async: true,
-  fileAsync: true
-}
-
 var app_version = chrome.runtime.getManifest().version,
     app_beta    = true;
 
