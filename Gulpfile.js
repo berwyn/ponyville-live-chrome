@@ -6,7 +6,33 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     del         = require('del');
 
-gulp.task('default', [
+var paths = {
+    js: [
+        '!src/scripts/background.js',
+        'src/scripts/app.js', // Defines the module, so needs to come 1st
+        'src/scripts/*.js'
+    ],
+    vendor: [
+        'bower_components/jquery/dist/jquery.min.js',
+        'bower_components/angular/angular.min.js',
+        'bower_components/lodash/dist/lodash.min.js',
+        'bower_components/moment/min/moment-with-locales.min.js',
+        'bower_components/socket.io-client/socket.io.js'
+    ],
+    sass: [
+        'src/**/*.scss'
+    ],
+    html: 'src/*.html',
+    images: 'src/images/*',
+    fonts: [
+        'src/fonts/*',
+        'bower_components/font-awesome/fonts/*'
+    ],
+    manifest: 'src/manifest.json',
+    background: 'src/scripts/background.js'
+};
+
+gulp.task('build', [
     'js',
     'vendor',
     'sass',
@@ -21,14 +47,14 @@ gulp.task('clean', function(cb) {
     del(['compiled'], cb);
 });
 
-gulp.task('js', function() {
-    var files = [
-        '!src/scripts/background.js',
-        'src/scripts/app.js', // Defines the module, so needs to come 1st
-        'src/scripts/*.js'
-    ];
+gulp.task('watch', function() {
+    for(var task in paths) {
+        gulp.watch(paths[task], [task]);
+    }
+});
 
-    return gulp.src(files)
+gulp.task('js', function() {
+    return gulp.src(paths.js)
         .pipe(sourcemaps.init())
         .pipe(traceur())
         .pipe(ngInject())
@@ -38,15 +64,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('vendor', function() {
-    var files = [
-        'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/angular/angular.min.js',
-        'bower_components/lodash/dist/lodash.min.js',
-        'bower_components/moment/min/moment-with-locales.min.js',
-        'bower_components/socket.io-client/socket.io.js'
-    ];
-
-    return gulp.src(files)
+    return gulp.src(paths.vendor)
         .pipe(sourcemaps.init())
         .pipe(concat('vendor.js'))
         .pipe(sourcemaps.write())
@@ -54,11 +72,7 @@ gulp.task('vendor', function() {
 });
 
 gulp.task('sass', function() {
-    var files = [
-        'src/**/*.scss'
-    ];
-
-    return gulp.src(files)
+    return gulp.src(paths.sass)
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(concat('mane.css'))
@@ -67,31 +81,26 @@ gulp.task('sass', function() {
 });
 
 gulp.task('html', function() {
-    return gulp.src('src/*.html')
+    return gulp.src(paths.html)
         .pipe(gulp.dest('compiled'));
 });
 
 gulp.task('images', function() {
-    return gulp.src('src/images/*')
+    return gulp.src(paths.images)
         .pipe(gulp.dest('compiled/images'));
 });
 
 gulp.task('fonts', function() {
-    var files = [
-        'src/fonts/*',
-        'bower_components/font-awesome/fonts/*'
-    ];
-
-    return gulp.src(files)
+    return gulp.src(paths.fonts)
         .pipe(gulp.dest('compiled/fonts'));
 });
 
 gulp.task('manifest', function() {
-    return gulp.src('src/manifest.json')
+    return gulp.src(paths.manifest)
         .pipe(gulp.dest('compiled'));
 });
 
 gulp.task('background', function() {
-    return gulp.src('src/scripts/background.js')
+    return gulp.src(paths.background)
         .pipe(gulp.dest('compiled/scripts'));
 });

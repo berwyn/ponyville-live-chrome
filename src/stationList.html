@@ -4,10 +4,10 @@
 		ng-class="{selected: ($index === stationList.currentIndex)}" 
 		ng-click="stationList.setSelected($index)">
 		
-		<img class="icon" alt="{{station.name}}" ng-src="{{ station.safe_img_url }}">
+		<img class="icon" alt="{{::station.name}}" ng-src="{{ station.safe_img_url }}">
 		<div class="details">
-			<span class="name">{{station.name}}</span>
-			<span class="genre">{{station.genre}}</span>
+			<span class="name">{{::station.name}}</span>
+			<span class="genre">{{::station.genre}}</span>
 			<span class="now-playing-title">{{stationList.nowPlaying[station.shortcode].current_song.title}}</span>
 			<span class="now-playing-artist">{{stationList.nowPlaying[station.shortcode].current_song.artist}}</span>
 		</div>

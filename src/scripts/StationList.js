@@ -1,9 +1,9 @@
 /** ngInject **/
-function StationListCtrl(PvlService) {
-  var vm = this;
+function StationListCtrl(PvlService, $scope) {
+  let vm = this;
 
   vm.imgUrls = {};
-  vm.nowPlaying = {};
+  vm.nowPlaying = PvlService.getNowPlaying();
   vm.currentIndex = null;
 
   vm.setSelected = function setSelected(index) {

@@ -76,6 +76,16 @@ $lightGrey: #aaa;
 		background: none;
 		border: none;
 	}
+
+	&.material-btn {
+		background-color: $listPlayingBackground;
+		border-radius: 50%;
+		color: white;
+
+		width: 40px;
+		height: 40px;
+		font-size: 15px;
+	}
 }
 
 html,body {

@@ -1,11 +1,17 @@
 /** ngInject **/
 function MediaPlayerCtrl() {
-  var vm = this;
+  let vm = this;
 
-  vm.isPlaying = false;
-  vm.togglePlayback = function togglePlayback() {
-    
-  }
+  vm.togglePlayback = togglePlayback;
+
+  function togglePlayback() {
+    if(vm.mediaElement.paused) {
+      vm.mediaElement.play();
+    } else {
+      vm.mediaElement.pause();
+    }
+  };
+  
 }
 
 function MediaPlayerDirective() {
@@ -17,7 +23,11 @@ function MediaPlayerDirective() {
     },
     controller: MediaPlayerCtrl,
     controllerAs: 'mediaPlayer',
-    bindToController: true
+    bindToController: true,
+    link: function(scope, el) {
+      // We want the controller to have access to the raw DOM element
+      scope.mediaPlayer.mediaElement = angular.element('audio', el)[0];
+    }
   };
 }
 
