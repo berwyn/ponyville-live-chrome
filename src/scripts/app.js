@@ -8,5 +8,5 @@ angular
   .constant('io', io)
   .constant('jQuery', $)
   .constant('moment', moment)
-  .constant('lodash', _);
+  .constant('_', _);
 

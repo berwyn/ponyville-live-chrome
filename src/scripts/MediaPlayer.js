@@ -1,7 +1,8 @@
 /** ngInject **/
-function MediaPlayerCtrl() {
+function MediaPlayerCtrl(PvlService, $scope) {
   let vm = this;
 
+  vm.nowPlaying = {};
   vm.togglePlayback = togglePlayback;
 
   function togglePlayback() {
@@ -12,6 +13,14 @@ function MediaPlayerCtrl() {
     }
   };
   
+  PvlService.getNowPlaying()
+    .on('nowplaying', data => {
+      if(!vm.station) return;
+      vm.nowPlaying = data[vm.station.shortcode];
+      if(!$scope.$$phase) {
+        $scope.$apply();
+      }
+    });
 }
 
 function MediaPlayerDirective() {

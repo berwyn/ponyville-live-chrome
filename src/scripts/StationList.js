@@ -3,13 +3,21 @@ function StationListCtrl(PvlService, $scope) {
   let vm = this;
 
   vm.imgUrls = {};
-  vm.nowPlaying = PvlService.getNowPlaying();
+  vm.nowPlaying = {};
   vm.currentIndex = null;
 
   vm.setSelected = function setSelected(index) {
     vm.selected = vm.stations[index];
     vm.currentIndex = index;
   }
+
+  PvlService.getNowPlaying()
+    .on('nowplaying', data => {
+      vm.nowPlaying = data;
+      if(!$scope.$$phase) {
+        $scope.$apply();
+      }
+    });
 }
 
 function StationListDirective() {

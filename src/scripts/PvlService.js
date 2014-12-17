@@ -2,19 +2,6 @@
 function PvlService($http, $q, $sce, io) {
   let apiHost = "https://ponyvillelive.com";
   let apiBase = `${apiHost}/api`;
-
-  var nowPlayingCache = {},
-      nowPlayingSocket = io("wss://api.ponyvillelive.com", {path: '/live'});
-
-  nowPlayingSocket.on('nowplaying', data => {
-    for(var shortcode in data) {
-      if(!nowPlayingCache.hasOwnProperty(shortcode)) {
-        nowPlayingCache[shortcode] = data[shortcode];
-      } else {
-        // TODO: update track history!
-      }
-    }
-  });
   
   function getStations(type) {
     var deferred = $q.defer();
@@ -50,7 +37,7 @@ function PvlService($http, $q, $sce, io) {
   }
 
   function getNowPlaying() {
-    return nowPlayingCache;
+    return io("wss://api.ponyvillelive.com", {path: '/live'});
   }
 
   return {apiBase, getStations, getNowPlaying};

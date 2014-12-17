@@ -4,6 +4,6 @@
 			<i class="fa" ng-class="{'fa-play': mediaPlayer.mediaElement.paused, 'fa-pause': !mediaPlayer.mediaElement.paused}"></i>
 		</button>
 	</div>
-	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" volume="1.0"/>
+	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" volume="1.0" autoplay/>
 	<h1>{{mediaPlayer.station.name}}</h1>
 </div>
