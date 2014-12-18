@@ -21,6 +21,7 @@ var paths = {
         'bower_components/color-thief/dist/color-thief.min.js'
     ],
     sass: [
+        'bower_components/angular/angular-csp.css',
         'src/**/*.scss'
     ],
     html: [

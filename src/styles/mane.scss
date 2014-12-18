@@ -285,10 +285,25 @@ body {
 	}
 }
 
+.mediaPlaceholder {
+	margin: 10%;
+	padding: 16px;
+	text-align: center;
+
+	img, span {
+		margin: auto;
+		display: block;
+	}
+
+	img {
+		max-height: 64vh;
+	}
+}
+
 .mediaPlayer {
 	$sidePadding: 16px;
 
-	margin: 10% 10% 0;
+	margin: 10%;
 
 	.artwork {
 		width: 100%;

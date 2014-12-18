@@ -1,4 +1,8 @@
-<div class="mediaPlayer card">
+<div class="mediaPlaceholder card" ng-show="mediaPlayer.station == null">
+	<img src="/images/mascot.png" alt="Mascot">
+	<span class="title">Select a station from the left to begin listening!</span>
+</div>
+<div class="mediaPlayer card" ng-hide="mediaPlayer.station == null">
 <!-- 	<div class="artwork">
 		<img ng-src="{{mediaPlayer.artworkUrl}}" alt="{{mediaPlayer.station.current_song.text}}">
 	</div> -->
