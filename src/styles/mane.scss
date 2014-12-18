@@ -7,6 +7,10 @@ $listHoverBackground: #e1e1e1;
 $listPlayingBackground: #38c;
 $lightGrey: #aaa;
 
+// http://codepen.io/mrrocks/pen/EiplA <3
+$offset: 187;
+$duration: 1.4s;
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -142,6 +146,22 @@ $lightGrey: #aaa;
 		background-color: white;
 		border-radius: 2px;
 		box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+	}
+
+	.loader {
+		// http://codepen.io/mrrocks/pen/EiplA <3
+		.spinner {
+			animation: rotator $duration linear infinite;
+		}
+
+
+		.path {
+			stroke: white;
+			stroke-dasharray: $offset;
+			stroke-dashoffset: 0;
+			transform-origin: center;
+			animation: dash $duration ease-in-out infinite;
+		}
 	}
 }
 
@@ -387,4 +407,22 @@ body {
 
 @media(min-width: 1200px) {
 	// Todo, better large-width controls
+}
+
+// http://codepen.io/mrrocks/pen/EiplA <3
+@keyframes rotator {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(270deg); }
+}
+
+@keyframes dash {
+	0% { stroke-dashoffset: $offset; }
+	50% {
+		stroke-dashoffset: $offset/4;
+			transform:rotate(135deg);
+	}
+	100% {
+		stroke-dashoffset: $offset;
+		transform:rotate(450deg);
+	}
 }

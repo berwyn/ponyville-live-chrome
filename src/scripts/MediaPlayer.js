@@ -1,12 +1,14 @@
 /** ngInject **/
-function MediaPlayerCtrl(PvlService, $scope, ColorThief) {
+function MediaPlayerCtrl(PvlService, $scope, ColorThief, $timeout) {
   let vm = this;
   let defaultArtwork = '/images/mascot.png';
   let colorThief = new ColorThief();
 
   vm.nowPlaying = {};
-  vm.togglePlayback = togglePlayback;
   vm.artworkUrl = defaultArtwork;
+  vm.isLoading = true;
+  vm.isPlaying = false;
+  vm.togglePlayback = togglePlayback;
 
   function togglePlayback() {
     if(vm.mediaElement.paused) {
@@ -14,9 +16,20 @@ function MediaPlayerCtrl(PvlService, $scope, ColorThief) {
     } else {
       vm.mediaElement.pause();
     }
-  };
+  }
+
+  $timeout(() => {
+    var el = angular.element(vm.mediaElement);
+
+    el.on('loadstart', $scope.$apply(()=>vm.isLoading=true));
+    el.on('canplay', $scope.$apply(()=>vm.isLoading=false));
+
+    el.on('play', $scope.$apply(()=>vm.isPlaying=true));
+    el.on('pause', $scope.$apply(()=>vm.isPlaying=false));
+  });
   
-  PvlService.getNowPlaying()
+  PvlService
+    .getNowPlaying()
     .on('nowplaying', data => {
 
       /**
@@ -30,21 +43,19 @@ function MediaPlayerCtrl(PvlService, $scope, ColorThief) {
       if(!vm.station) return;
       vm.nowPlaying = data[vm.station.shortcode];
       
-      var externalData = vm.nowPlaying.current_song.external;
+      var externalData = vm.nowPlaying.current_song.external,
+          url = defaultArtwork;
+      
       if(externalData.hasOwnProperty('bronytunes')) {
         if(externalData.bronytunes.hasOwnProperty('image_url')) {
-          vm.artworkUrl = externalData.bronytunes.image_url;
-        } else {
-          vm.artworkUrl = defaultArtwork;
+          url = externalData.bronytunes.image_url;
         }
-      } else {
-        vm.artworkUrl = defaultArtwork;
       }
 
-      // Digest to apply the image
-      if(!$scope.$$phase) {
-        $scope.$apply();
-      }
+      $scope.$apply(() => {
+        vm.nowPlaying = data[vm.station.shortcode];
+        vm.artworkUrl = url;
+      });
     });
 }
 

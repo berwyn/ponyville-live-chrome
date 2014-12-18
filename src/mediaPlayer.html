@@ -8,7 +8,12 @@
 	</div> -->
 	<div class="playerControls" ng-cloak>
 		<button class="btn fab blue playButton" type="button" ng-click="mediaPlayer.togglePlayback()">
-			<i class="fa" ng-class="{'fa-play': mediaPlayer.mediaElement.paused, 'fa-pause': !mediaPlayer.mediaElement.paused}"></i>
+			<div class="loader" ng-show="mediaPlayer.isLoading">
+				<svg class="spinner" width="36px" height="36px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+   					<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"/>
+				</svg>
+			</div>
+			<i class="fa" ng-show="!mediaPlayer.isLoading" ng-class="{'fa-play': mediaPlayer.isPlaying, 'fa-pause': !mediaPlayer.isPlaying}"></i>
 		</button>
 		<div class="metadata">
 			<span class="track title">{{mediaPlayer.nowPlaying.current_song.title}}</span>
@@ -23,5 +28,5 @@
 			</div>
 		</li>
 	</ul>
-	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" volume="1.0"/>
+	<audio autoplay type="audio/mp3" volume="1.0" ng-src="{{mediaPlayer.station.stream_url}}"/>
 </div>
