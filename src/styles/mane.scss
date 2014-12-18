@@ -57,7 +57,7 @@ $lightGrey: #aaa;
 	}
 
 	&.flex-row {
-		flex-direction: column;
+		flex-direction: row;
 	}
 
 	.flex-grow {
@@ -69,6 +69,82 @@ $lightGrey: #aaa;
 	}
 }
 
+@mixin regular-font {
+	font-weight: 400;
+}
+
+@mixin medium-font {
+	font-weight: 700;
+}
+
+@mixin light-font {
+	font-weight: 300;
+}
+
+
+
+.material {
+	font-family: 'Noto Sans';
+
+	span {
+		&.display4 {
+			font-size: 112px;
+			@include light-font;
+		}
+
+		&.display3 {
+			font-size: 56px;
+			@include regular-font;
+		}
+
+		&.display2 {
+			font-size: 45px;
+			@include regular-font;
+		}
+
+		&.display1 {
+			font-size: 34px;
+			@include regular-font;
+		}
+
+		&.headline {
+			font-size: 24px;
+			@include regular-font;
+		}
+
+		&.title {
+			font-size: 20px;
+			@include medium-font;
+		}
+
+		&.subhead {
+			font-size: 15px;
+			@include regular-font;
+		}
+
+		&.body2 {
+			font-size: 13px;
+			@include medium-font;
+		}
+
+		&.body1 {
+			font-size: 13px;
+			@include regular-font;
+		}
+
+		&.caption {
+			font-size: 12px;
+			@include regular-font;
+		}
+	}
+
+	.card {
+		background-color: white;
+		border-radius: 2px;
+		box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+	}
+}
+
 .btn {
 	padding: 10px;
 
@@ -77,21 +153,27 @@ $lightGrey: #aaa;
 		border: none;
 	}
 
-	&.material-btn {
-		background-color: $listPlayingBackground;
+	&.fab {
+		width: 56px;
+		height: 56px;
 		border-radius: 50%;
-		color: white;
-
-		width: 40px;
-		height: 40px;
+		border-width: 0;
+		color: #fff;
+		overflow: hidden;
+		transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		transition-delay: 0.2s;
+		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 		font-size: 15px;
+
+		&.blue {
+			background-color: $listPlayingBackground;
+		}
 	}
 }
 
 html,body {
 	@include full-size;
 	@include unpadded;
-	font-family: 'Open Sans', sans-serif;
 }
 
 body {
@@ -203,9 +285,91 @@ body {
 	}
 }
 
-.media-player {
-	.player-controls {
+.mediaPlayer {
+	$sidePadding: 16px;
+
+	margin: 10% 10% 0;
+
+	.artwork {
 		width: 100%;
-		background-color: #151515
+		height: 400px;
+		text-align: center;
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
 	}
+
+	.playerControls {
+		padding-left: $sidePadding;
+		padding-right: $sidePadding;
+		white-space: nowrap;
+		height: 80px;
+		border-bottom: 1px solid rgba(0,0,0,0.1);
+
+		&:before {
+			content: '';
+			display: inline-block;
+			height: 100%;
+			vertical-align: middle;
+		}
+
+		> * {
+			vertical-align: middle;
+		}
+
+		.playButton {
+			margin-right: $sidePadding;
+		}
+
+		.playButton,
+		.metadata {
+			display: inline-block;
+		}
+
+		.track, .artist {
+			display: block;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.songHistory {
+		@include unpadded;
+		li {
+			height: 76px;
+			padding-left: $sidePadding;
+			padding-right: $sidePadding;
+			overflow: hidden;
+			border-bottom: 1px solid rgba(0,0,0,0.1);
+
+			&:before {
+				content: '';
+				display: inline-block;
+				vertical-align: middle;
+				height: 100%;
+			}
+
+			div {
+				display: inline-block;
+				vertical-align: middle;
+			}
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			span {
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+	}
+}
+
+@media(min-width: 1200px) {
+	// Todo, better large-width controls
 }

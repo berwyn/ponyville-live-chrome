@@ -17,12 +17,15 @@ var paths = {
         'bower_components/angular/angular.min.js',
         'bower_components/lodash/dist/lodash.min.js',
         'bower_components/moment/min/moment-with-locales.min.js',
-        'bower_components/socket.io-client/socket.io.js'
+        'bower_components/socket.io-client/socket.io.js',
+        'bower_components/color-thief/dist/color-thief.min.js'
     ],
     sass: [
         'src/**/*.scss'
     ],
-    html: 'src/*.html',
+    html: [
+        'src/*.html'
+    ],
     images: 'src/images/*',
     fonts: [
         'src/fonts/*',

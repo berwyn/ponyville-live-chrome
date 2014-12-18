@@ -20,6 +20,7 @@
     "font-awesome": "~4.2.0",
     "lodash": "~2.4.1",
     "moment": "~2.8.4",
-    "socket.io-client": "~1.2.1"
+    "socket.io-client": "~1.2.1",
+    "color-thief": "*"
   }
 }

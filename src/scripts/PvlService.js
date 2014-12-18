@@ -2,6 +2,8 @@
 function PvlService($http, $q, $sce, io) {
   let apiHost = "https://ponyvillelive.com";
   let apiBase = `${apiHost}/api`;
+
+  var socket;
   
   function getStations(type) {
     var deferred = $q.defer();
@@ -37,7 +39,10 @@ function PvlService($http, $q, $sce, io) {
   }
 
   function getNowPlaying() {
-    return io("wss://api.ponyvillelive.com", {path: '/live'});
+    if(!socket) {
+      socket = io("wss://api.ponyvillelive.com", {path: '/live'});
+    }
+    return socket;
   }
 
   return {apiBase, getStations, getNowPlaying};

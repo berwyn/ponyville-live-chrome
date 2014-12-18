@@ -1,9 +1,23 @@
-<div class="mediaPlayer">
-	<div class="playerControls">
-		<button class="btn material-btn" type="button" ng-click="mediaPlayer.togglePlayback()">
+<div class="mediaPlayer card">
+<!-- 	<div class="artwork">
+		<img ng-src="{{mediaPlayer.artworkUrl}}" alt="{{mediaPlayer.station.current_song.text}}">
+	</div> -->
+	<div class="playerControls" ng-cloak>
+		<button class="btn fab blue playButton" type="button" ng-click="mediaPlayer.togglePlayback()">
 			<i class="fa" ng-class="{'fa-play': mediaPlayer.mediaElement.paused, 'fa-pause': !mediaPlayer.mediaElement.paused}"></i>
 		</button>
+		<div class="metadata">
+			<span class="track title">{{mediaPlayer.nowPlaying.current_song.title}}</span>
+			<span class="artist subhead">{{mediaPlayer.nowPlaying.current_song.artist}}</span>
+		</div>
 	</div>
-	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" volume="1.0" autoplay/>
-	<h1>{{mediaPlayer.station.name}}</h1>
+	<ul class="songHistory">
+		<li ng-repeat="entry in mediaPlayer.nowPlaying.song_history">
+			<div>
+				<span class="body2">{{entry.song.title}}</span>
+				<span class="body1">{{entry.song.artist}}</span>
+			</div>
+		</li>
+	</ul>
+	<audio type="audio/mp3" ng-src="{{mediaPlayer.station.stream_url}}" volume="1.0"/>
 </div>
