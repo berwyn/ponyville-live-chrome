@@ -3,11 +3,8 @@
 	<span class="title">Select a station from the left to begin listening!</span>
 </div>
 <div class="mediaPlayer card" ng-hide="mediaPlayer.station == null">
-<!-- 	<div class="artwork">
-		<img ng-src="{{mediaPlayer.artworkUrl}}" alt="{{mediaPlayer.station.current_song.text}}">
-	</div> -->
-	<div class="playerControls" ng-cloak>
-		<button class="btn fab blue playButton" type="button" ng-click="mediaPlayer.togglePlayback()">
+	<div class="playerControls flex flex-row flex-center" ng-cloak>
+		<button class="btn fab blue playButton flex-base" type="button" ng-click="mediaPlayer.togglePlayback()">
 			<div class="loader" ng-show="mediaPlayer.isLoading">
 				<svg class="spinner" width="36px" height="36px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
    					<circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"/>
@@ -15,7 +12,7 @@
 			</div>
 			<i class="fa" ng-show="!mediaPlayer.isLoading" ng-class="{'fa-play': mediaPlayer.isPlaying, 'fa-pause': !mediaPlayer.isPlaying}"></i>
 		</button>
-		<div class="metadata">
+		<div class="metadata flex-grow">
 			<span class="track title">{{mediaPlayer.nowPlaying.current_song.title}}</span>
 			<span class="artist subhead">{{mediaPlayer.nowPlaying.current_song.artist}}</span>
 		</div>

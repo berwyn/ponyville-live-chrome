@@ -1,5 +1,5 @@
 /** ngInject **/
-function MediaPlayerCtrl(PvlService, $scope, ColorThief, $timeout) {
+function MediaPlayerCtrl($scope, $timeout, $rootScope, PvlService, ColorThief) {
   let vm = this;
   let defaultArtwork = '/images/mascot.png';
   let colorThief = new ColorThief();
@@ -9,6 +9,7 @@ function MediaPlayerCtrl(PvlService, $scope, ColorThief, $timeout) {
   vm.isLoading = true;
   vm.isPlaying = false;
   vm.togglePlayback = togglePlayback;
+  vm.station = null;
 
   function togglePlayback() {
     if(vm.mediaElement.paused) {
@@ -27,6 +28,11 @@ function MediaPlayerCtrl(PvlService, $scope, ColorThief, $timeout) {
     el.on('play', $scope.$apply(()=>vm.isPlaying=true));
     el.on('pause', $scope.$apply(()=>vm.isPlaying=false));
   });
+
+  var listener = (evt, station) => vm.station = station;
+
+  var unsubscribe = $rootScope.$on('pvl:stationSelect', listener);
+  $scope.$on('$destroy', unsubscribe);
   
   PvlService
     .getNowPlaying()
@@ -41,9 +47,9 @@ function MediaPlayerCtrl(PvlService, $scope, ColorThief, $timeout) {
        */
 
       if(!vm.station) return;
-      vm.nowPlaying = data[vm.station.shortcode];
       
-      var externalData = vm.nowPlaying.current_song.external,
+      var datum = data[vm.station.shortcode],
+          externalData = datum.current_song.external,
           url = defaultArtwork;
       
       if(externalData.hasOwnProperty('bronytunes')) {
@@ -63,9 +69,7 @@ function MediaPlayerDirective() {
   return {
     restrict: 'E',
     templateUrl: '/mediaPlayer.html',
-    scope: {
-      station: '=',
-    },
+    scope: true,
     controller: MediaPlayerCtrl,
     controllerAs: 'mediaPlayer',
     bindToController: true,

@@ -3,23 +3,29 @@ function PvlService($http, $q, $sce, io) {
   let apiHost = "https://ponyvillelive.com";
   let apiBase = `${apiHost}/api`;
 
-  var socket;
+  var socket,
+      stationCache = {};
   
   function getStations(type) {
     var deferred = $q.defer();
 
+    if(stationCache[type]) {
+      deferred.resolve(stationCache[type]);
+      return;
+    }
+
     $http
       .get(this.apiBase + "/station/list/category/" + type, {
-        transformResponse: function(data) {
+        transformResponse: data => {
           var payload = JSON.parse(data),
               stations = payload.result;
 
-          stations.forEach(function(station) {
+          stations.forEach(station => {
             station.safe_img_url = '';
             station.stream_url = $sce.trustAsResourceUrl(station.stream_url);
             $http
               .get(station.image_url, {responseType: 'blob'})
-              .success(function(response, status, headers, config) {
+              .success((response, status, headers, config) => {
                 var fileUrl = URL.createObjectURL(response);
                 station.safe_img_url = $sce.trustAsResourceUrl(fileUrl);
               });
@@ -28,12 +34,11 @@ function PvlService($http, $q, $sce, io) {
           return payload;
         }
       })
-      .success(function(json) {
+      .success(json => {
         deferred.resolve(json.result);
+        stationCache[type] = json.result;
       })
-      .error(function(err) {
-        deferred.reject(err);
-      });
+      .error(err => deferred.reject(err));
 
       return deferred.promise;
   }

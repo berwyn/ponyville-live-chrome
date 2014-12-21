@@ -1,33 +1,29 @@
 /** ngInject **/
-function StationListCtrl(PvlService, $scope) {
+function StationListCtrl($scope, $rootScope, PvlService) {
   let vm = this;
 
   vm.imgUrls = {};
   vm.nowPlaying = {};
   vm.currentIndex = null;
+  vm.setSelected = setSelected;
 
-  vm.setSelected = function setSelected(index) {
-    vm.selected = vm.stations[index];
+  function setSelected(index) {
     vm.currentIndex = index;
+    $rootScope.$emit('pvl:stationSelect', vm.stations[index]);
   }
 
+  PvlService.getStations('audio')
+    .then(stations => vm.stations = stations);
+
   PvlService.getNowPlaying()
-    .on('nowplaying', data => {
-      vm.nowPlaying = data;
-      if(!$scope.$$phase) {
-        $scope.$apply();
-      }
-    });
+    .on('nowplaying', data => $scope.$apply(()=> vm.nowPlaying = data));
 }
 
 function StationListDirective() {
   return {
     restrict: 'E',
     templateUrl: '/stationList.html',
-    scope: {
-      stations: '=',
-      selected: '='
-    },
+    scope: true,
     controller: StationListCtrl,
     controllerAs: 'stationList',
     bindToController: true

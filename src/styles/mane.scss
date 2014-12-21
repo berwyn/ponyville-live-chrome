@@ -64,6 +64,10 @@ $duration: 1.4s;
 		flex-direction: row;
 	}
 
+	&.flex-center {
+		align-items: center;
+	}
+
 	.flex-grow {
 		flex: 1;
 	}
