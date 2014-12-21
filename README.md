@@ -3,18 +3,21 @@ Ponyville Live! Desktop App
 
 The Ponyville Live! Desktop app was designed for [Ponyville Live!] [1] by TheAuzzieBrony.
 
+This fork is overhauled and maintained by [berwyn](https://github.com/berwyn).
+
 The chrome application is designed to make it simpler and easier for users to tune into their favourite radio station on the Ponyville Live! network without having to open a new browser window and so on. Just open the app and select your station.
 
 Version
 ----
 
-v0.1.10_BETA
+v0.0.2_BETA
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
+* **v0.2.0_BETA** - A total rewrite in Angular.js, allowing the app to be far more flexible
 * **v0.1.10_BETA** - v0.2.0 Pre-Release | Fix to handle new update to the PVL public API | Total code re-write
 * **v0.1.7** - Added facebook button to the app
 * **v0.1.6** - Fixed miss-typed jQuery selectors which were effecting voting | Removed 'update_url' from the manifest designed for the chrome store
@@ -32,6 +35,14 @@ Installation
 --------------
 To install, clone this git repo, ```git clone https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, or down load the zip (on the left of this repo). Browse to ```chrome://extensions/``` in your Google Chrome Browser and drag the file ```packaged/ponyville.live.app.crx``` onto your chrome browser window
 
+To install from the source code, you'll need Node.js, npm, Gulp, and Bower.
+With these installed and the repo cloned, you can
+```bash
+cd $CODE_DIR && npm install && bower install && gulp build
+```
+
+The compiled extension is in the "compiled" directory, and can be directly
+loaded from the [Chrome extensions page](chrome://extensions).
 
 License
 ----
