@@ -1,10 +1,10 @@
 /** ngInject **/
-function MainCtrl(PvlService) {
+function MainCtrl() {
   var vm = this,
-      app_version = angular.module('PVL').value('app_version'),
-      app_beta = angular.module('PVL').value('app_beta');
+      version = chrome.runtime.getManifest().version,
+      beta = true; // TODO: Figure out a better scheme for this?
 
-  vm.appVersion = app_version + (app_beta? '_BETA' : '');
+  vm.appVersion = version + (beta? '_BETA' : '');
 }
 
 angular
