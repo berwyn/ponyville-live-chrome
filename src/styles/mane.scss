@@ -30,6 +30,27 @@ $duration: 1.4s;
   src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(../fonts/EInbV5DfGHOiMmvb1Xr-hnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
 }
 
+@font-face {
+	font-family: 'Noto Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Noto Sans'), url(../fonts/NotoSans-Regular.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'Noto Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Noto Sans'), url(../fonts/NotoSans-Regular.ttf) format('truetype');
+}
+
+@font-face {
+	font-family: 'Noto Sans';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Noto Sans'), url(../fonts/NotoSans-Regular.ttf) format('truetype');
+}
+
 * {
 	list-style: none;
 	box-sizing: border-box;
@@ -228,6 +249,7 @@ body {
 		background-color: white;
 		border: 1px solid $listBorder;
 		border-bottom: none;
+		min-height: 80px;
 
 		&.selected {
 			background-color: $listPlayingBackground;

@@ -24,8 +24,8 @@ function PvlService($http, $q, $sce, io) {
             station.safe_img_url = '';
             station.stream_url = $sce.trustAsResourceUrl(station.stream_url);
             $http
-              .get(station.image_url, {responseType: 'blob'})
-              .success((response, status, headers, config) => {
+              .get(`${apiHost}/${station.image_url}`, {responseType: 'blob'})
+              .success(response => {
                 var fileUrl = URL.createObjectURL(response);
                 station.safe_img_url = $sce.trustAsResourceUrl(fileUrl);
               });
