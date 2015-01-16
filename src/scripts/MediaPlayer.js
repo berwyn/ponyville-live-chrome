@@ -1,16 +1,47 @@
 /** ngInject **/
-function MediaPlayerCtrl($scope, $timeout, $rootScope, PvlService, ColorThief) {
+function MediaPlayerCtrl($scope, $element, $timeout, EventBus, PvlService, ColorThief) {
+  
+  /**
+   * To make sure we have access to the viewmodel in all closures
+   * we declare it as a local, immutable variable.
+   */
   let vm = this;
+  
+  /**
+   * These variables are all immutable values used throughout
+   * the code.
+   */
   let defaultArtwork = '/images/mascot.png';
   let colorThief = new ColorThief();
+  var playingCache = {};
 
-  vm.nowPlaying = {};
+
+  /**
+   * These are jQuery elements we want to use
+   */
+  let mediaElement = angular.element('audio', $element);
+  let artworkImg = angular.element('.artwork img', $element);
+  let flipEl = angular.element('.flipper');
+
+  // The data for the currently playing track
+  vm.nowPlaying = null;
+  // URL to the current song's cover art
   vm.artworkUrl = defaultArtwork;
+  // Whether the audio elements loading indicator should show
   vm.isLoading = true;
+  // Whether the audio element is in playback
   vm.isPlaying = false;
+  // viewmodel binding for our toggle function
   vm.togglePlayback = togglePlayback;
+  // The currently selected station
   vm.station = null;
+  // The raw audio DOM element
+  vm.mediaElement = mediaElement[0];
 
+  /**
+   * Given the current state of the audio element,
+   * toggle it.
+   */
   function togglePlayback() {
     if(vm.mediaElement.paused) {
       vm.mediaElement.play();
@@ -19,50 +50,73 @@ function MediaPlayerCtrl($scope, $timeout, $rootScope, PvlService, ColorThief) {
     }
   }
 
-  $timeout(() => {
-    var el = angular.element(vm.mediaElement);
-
-    el.on('loadstart', $scope.$apply(()=>vm.isLoading=true));
-    el.on('canplay', $scope.$apply(()=>vm.isLoading=false));
-
-    el.on('play', $scope.$apply(()=>vm.isPlaying=true));
-    el.on('pause', $scope.$apply(()=>vm.isPlaying=false));
+  /**
+   * Binding DOM events to toggle our application state
+   */
+  mediaElement.on({
+    loadstart:  () => $scope.$apply(() => vm.isLoading = true),
+    canplay:    () => $scope.$apply(() => vm.isLoading = false),
+    play:       () => $scope.$apply(() => vm.isPlaying = true),
+    pause:      () => $scope.$apply(() => vm.isPlaying = false)
   });
 
-  var listener = (evt, station) => vm.station = station;
+  /**
+   * Listen to the event bus and update the station to
+   * be the one the user selected elsewhere in the application.
+   * Also updates the nowPlaying to match the current station
+   * if the cache exists.
+   */
+  let stationListener = (evt, station) => { 
+    vm.station = station;
 
-  var unsubscribe = $rootScope.$on('pvl:stationSelect', listener);
-  $scope.$on('$destroy', unsubscribe);
-  
-  PvlService
-    .getNowPlaying()
-    .on('nowplaying', data => {
+    if(playingCache[station.shortcode]) {
+      vm.nowPlaying = playingCache[station.shortcode];
+    }
 
-      /**
-       * This function is outside of the digest cycle,
-       * so any updates to the scope need to trigger a
-       * digest cycle through $scope.$apply().
-       *
-       * Yes, this is gross.
-       */
+    if(flipEl.hasClass('flipped')) {
+      flipEl.toggleClass('double-flipped');
+    }
+  };
 
-      if(!vm.station) return;
-      
-      var datum = data[vm.station.shortcode],
-          externalData = datum.current_song.external,
-          url = defaultArtwork;
-      
-      if(externalData.hasOwnProperty('bronytunes')) {
-        if(externalData.bronytunes.hasOwnProperty('image_url')) {
-          url = externalData.bronytunes.image_url;
-        }
+  /**
+   * Listen to the event bus and update the nowPlaying
+   * metadata and cache.
+   */
+  let nowPlayingListener = (evt, data) => {
+    playingCache = data;
+
+    if(!vm.station) return;
+
+    var datum = data[vm.station.shortcode],
+        externalData = datum.current_song.external,
+        url = defaultArtwork;
+    
+    /**
+     * PVL offers external data that might provide
+     * cover artwork for the track. If that exists,
+     * parse it and load it into the model object
+     * such that the view can load it.
+     */
+    if(externalData.hasOwnProperty('bronytunes')) {
+      if(externalData.bronytunes.hasOwnProperty('image_url')) {
+        url = externalData.bronytunes.image_url;
       }
+    }
 
-      $scope.$apply(() => {
-        vm.nowPlaying = data[vm.station.shortcode];
-        vm.artworkUrl = url;
-      });
-    });
+    vm.nowPlaying = data[vm.station.shortcode];
+    vm.artworkUrl = url;
+  };
+
+  // Listen to station selections on the event bus
+  var unsubStationSelect  = EventBus.on('pvl:stationSelect', stationListener);
+  // Listen for nowPlaying data
+  var unsubNowPlaying     = EventBus.on('pvl:nowPlaying', nowPlayingListener);
+  
+  // If our scope is ever destoryed, stop listening to the event bus
+  $scope.$on('$destroy', () => {
+    unsubStationSelect();
+    unsubNowPlaying();
+  });
 }
 
 function MediaPlayerDirective() {
@@ -72,12 +126,7 @@ function MediaPlayerDirective() {
     scope: true,
     controller: MediaPlayerCtrl,
     controllerAs: 'mediaPlayer',
-    bindToController: true,
-    link: function(scope, el) {
-      // We want the controller to have access to the raw DOM element
-      scope.mediaPlayer.mediaElement = angular.element('audio', el)[0];
-      scope.mediaPlayer.artworkImg = angular.element('.artwork img', el);
-    }
+    bindToController: true
   };
 }
 

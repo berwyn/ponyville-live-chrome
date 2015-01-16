@@ -1,5 +1,5 @@
 /** ngInject **/
-function StationListCtrl($scope, $rootScope, PvlService) {
+function StationListCtrl($scope, EventBus, PvlService) {
   let vm = this;
 
   vm.imgUrls = {};
@@ -9,14 +9,20 @@ function StationListCtrl($scope, $rootScope, PvlService) {
 
   function setSelected(index) {
     vm.currentIndex = index;
-    $rootScope.$emit('pvl:stationSelect', vm.stations[index]);
+    EventBus.emit('pvl:stationSelect', vm.stations[index]);
   }
 
   PvlService.getStations('audio')
     .then(stations => vm.stations = stations);
 
-  PvlService.getNowPlaying()
-    .on('nowplaying', data => $scope.$apply(()=> vm.nowPlaying = data));
+  let nowPlayingListener = (event, data) => {
+    vm.nowPlaying = data;
+  };
+
+  let unsubNowPlaying = EventBus.on('pvl:nowPlaying', nowPlayingListener);
+  $scope.$on('$destroy', () => {
+    unsubNowPlaying();
+  });
 }
 
 function StationListDirective() {
@@ -27,7 +33,7 @@ function StationListDirective() {
     controller: StationListCtrl,
     controllerAs: 'stationList',
     bindToController: true
-  }
+  };
 }
 
 angular

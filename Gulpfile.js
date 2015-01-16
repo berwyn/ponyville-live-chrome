@@ -4,6 +4,8 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     ngInject    = require('gulp-ng-annotate'),
     sass        = require('gulp-sass'),
+    jshint      = require('gulp-jshint'),
+    stylish     = require('jshint-stylish'),
     del         = require('del');
 
 var paths = {
@@ -13,10 +15,11 @@ var paths = {
         'src/scripts/*.js'
     ],
     vendor: [
-        'bower_components/jquery/dist/jquery.min.js',
-        'bower_components/angular/angular.min.js',
-        'bower_components/lodash/dist/lodash.min.js',
-        'bower_components/moment/min/moment-with-locales.min.js',
+        'bower_components/jquery/dist/jquery.js',
+        'bower_components/angular/angular.js',
+        'bower_components/angular-animate/angular-animate.js',
+        'bower_components/lodash/dist/lodash.js',
+        'bower_components/moment/min/moment-with-locales.js',
         'bower_components/socket.io-client/socket.io.js',
         'bower_components/color-thief/dist/color-thief.min.js'
     ],
@@ -58,7 +61,13 @@ gulp.task('watch', function() {
 });
 
 gulp.task('js', function() {
+    var jshintConfig = {
+        esnext: true
+    };
+
     return gulp.src(paths.js)
+        .pipe(jshint(jshintConfig))
+        .pipe(jshint.reporter(stylish))
         .pipe(sourcemaps.init())
         .pipe(traceur())
         .pipe(ngInject())

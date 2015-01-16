@@ -1,4 +1,5 @@
 @import "../../bower_components/font-awesome/scss/font-awesome";
+@import "card-flip";
 
 $listBackground: #f6f6f6;
 $listBorder: #ddd;
@@ -10,25 +11,6 @@ $lightGrey: #aaa;
 // http://codepen.io/mrrocks/pen/EiplA <3
 $offset: 187;
 $duration: 1.4s;
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url(../fonts/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 600;
-  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(../fonts/MTP_ySUJH_bn48VBG8sNSnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
-}
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 800;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(../fonts/EInbV5DfGHOiMmvb1Xr-hnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
-}
 
 @font-face {
 	font-family: 'Noto Sans';
@@ -233,91 +215,6 @@ body {
 	flex-flow: row nowrap;
 }
 
-.station-list {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	overflow: overlay;
-	@include unpadded;
-
-	.station {
-		padding: 10px;
-		padding-bottom: 15px;
-		color: $listText;
-		cursor: pointer;
-		background-color: white;
-		border: 1px solid $listBorder;
-		border-bottom: none;
-		min-height: 80px;
-
-		&.selected {
-			background-color: $listPlayingBackground;
-			color: white;
-			&:hover {
-				background-color: lighten($listPlayingBackground, 10%);
-			}
-			.genre {
-				color: lighten($lightGrey, 30%);
-			}
-		}
-
-		&:hover {
-			background: $listHoverBackground;
-		}
-
-		&:first-child {
-			border-top: none;
-		}
-
-		&:before {
-			content: '';
-			height: 100%;
-			display: inline-block;
-			vertical-align: middle;
-		}
-
-		.icon,
-		.details {
-			display: inline;
-			vertical-align: middle;
-		}
-
-		.details {
-			width: 200px;
-			float: right;
-
-			> * {
-				display: block;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-		}
-
-		.icon {
-			max-width: 64px;
-			margin-right: 10px;
-		}
-
-		.name {
-			font-weight: 900;
-			font-size: 14px;
-		}
-
-		.genre {
-			font-weight: 400;
-			font-size: 12px;
-			color: $lightGrey;
-		}
-
-		.now-playing-title {
-			font-weight: 800;
-			font-size: 13px;
-		}
-	}
-}
-
 .container {
 	// flex-grow: 3;
 	height: 100%;
@@ -327,106 +224,6 @@ body {
 		padding: 10px 20px;
 		* {
 			display: inline-block;
-		}
-	}
-}
-
-.mediaPlaceholder {
-	margin: 10%;
-	padding: 16px;
-	text-align: center;
-
-	img, span {
-		margin: auto;
-		display: block;
-	}
-
-	img {
-		max-height: 64vh;
-	}
-}
-
-.mediaPlayer {
-	$sidePadding: 16px;
-
-	margin: 10%;
-
-	.artwork {
-		width: 100%;
-		height: 400px;
-		text-align: center;
-		img {
-			max-width: 100%;
-			max-height: 100%;
-		}
-	}
-
-	.playerControls {
-		padding-left: $sidePadding;
-		padding-right: $sidePadding;
-		white-space: nowrap;
-		height: 80px;
-		border-bottom: 1px solid rgba(0,0,0,0.1);
-
-		&:before {
-			content: '';
-			display: inline-block;
-			height: 100%;
-			vertical-align: middle;
-		}
-
-		> * {
-			vertical-align: middle;
-		}
-
-		.playButton {
-			margin-right: $sidePadding;
-		}
-
-		.playButton,
-		.metadata {
-			display: inline-block;
-		}
-
-		.track, .artist {
-			display: block;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-	}
-
-	.songHistory {
-		@include unpadded;
-		li {
-			height: 76px;
-			padding-left: $sidePadding;
-			padding-right: $sidePadding;
-			overflow: hidden;
-			border-bottom: 1px solid rgba(0,0,0,0.1);
-
-			&:before {
-				content: '';
-				display: inline-block;
-				vertical-align: middle;
-				height: 100%;
-			}
-
-			div {
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-			&:last-child {
-				border-bottom: none;
-			}
-
-			span {
-				display: block;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
 		}
 	}
 }
@@ -452,3 +249,6 @@ body {
 		transform:rotate(450deg);
 	}
 }
+
+@import "station-list";
+@import "media-player";

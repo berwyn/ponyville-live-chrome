@@ -1,0 +1,133 @@
+pvl-media-player {
+	$sidePadding: 16px;
+	max-height: 100%;
+	max-width: 100%;
+
+	@keyframes basicFadeOut {
+		0% {
+			height: auto;
+			opacity: 1;
+		}
+		50% {
+			height: 0;
+			opacity: 0;
+		}
+	}
+
+	@keyframes basicFadeIn {
+		0% {
+			height: 0%;
+			opacity: 0;
+		}
+		50% {
+			height: auto;
+			opacity: 1;
+		}
+	}
+
+	.card {
+		margin: 10%;
+
+		.front,
+		.back {
+			.ng-enter { animation: 1s basicFadeIn ease; }
+			.ng-exit { animation: 1s basicFadeOut ease; }
+		}
+	}
+
+	.mediaPlaceholder {
+		margin: 10%;
+		padding: 16px;
+		text-align: center;
+
+		img, span {
+			margin: auto;
+			display: block;
+		}
+
+		img {
+			max-height: 64vh;
+		}
+	}
+
+	.mediaPlayer {
+		.artwork {
+			width: 100%;
+			height: 400px;
+			text-align: center;
+			img {
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+
+		.playerControls {
+			padding-left: $sidePadding;
+			padding-right: $sidePadding;
+			white-space: nowrap;
+			height: 80px;
+			border-bottom: 1px solid rgba(0,0,0,0.1);
+
+			&:before {
+				content: '';
+				display: inline-block;
+				height: 100%;
+				vertical-align: middle;
+			}
+
+			> * {
+				vertical-align: middle;
+			}
+
+			.playButton {
+				margin-right: $sidePadding;
+			}
+
+			.playButton,
+			.metadata {
+				display: inline-block;
+			}
+
+			.track, .artist {
+				display: block;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.songHistory {
+			@include unpadded;
+			li {
+				height: 76px;
+				padding-left: $sidePadding;
+				padding-right: $sidePadding;
+				overflow: hidden;
+				border-bottom: 1px solid rgba(0,0,0,0.1);
+
+				&:before {
+					content: '';
+					display: inline-block;
+					vertical-align: middle;
+					height: 100%;
+				}
+
+				div {
+					display: inline-block;
+					vertical-align: middle;
+				}
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				span {
+					display: block;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+	}
+}

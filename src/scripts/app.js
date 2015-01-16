@@ -1,5 +1,5 @@
 angular
-  .module('PVL', [])
+  .module('PVL', ['ngAnimate'])
   .constant('io', io)
   .constant('jQuery', $)
   .constant('moment', moment)
