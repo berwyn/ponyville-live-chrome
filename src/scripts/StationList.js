@@ -1,5 +1,5 @@
 /** ngInject **/
-function StationListCtrl($scope, EventBus, PvlService) {
+function StationListCtrl($scope, $interval, EventBus, PvlService) {
   let vm = this;
 
   vm.imgUrls = {};
@@ -7,6 +7,8 @@ function StationListCtrl($scope, EventBus, PvlService) {
   vm.currentIndex = null;
   vm.setSelected = setSelected;
 
+  var refreshDataBindings = $interval(null, 1000);
+  
   function setSelected(index) {
     vm.currentIndex = index;
     EventBus.emit('pvl:stationSelect', vm.stations[index]);
@@ -21,6 +23,7 @@ function StationListCtrl($scope, EventBus, PvlService) {
 
   let unsubNowPlaying = EventBus.on('pvl:nowPlaying', nowPlayingListener);
   $scope.$on('$destroy', () => {
+	$interval.cancel(refreshDataBindings);
     unsubNowPlaying();
   });
 }
