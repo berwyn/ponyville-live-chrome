@@ -5,15 +5,15 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
    * To make sure we have access to the viewmodel in all closures
    * we declare it as a local, immutable variable.
    */
-  let vm = this;
-  
+  const vm = this;
+
   /**
    * These variables are all immutable values used throughout
    * the code.
    */
-  let defaultArtwork = '/images/mascot.png';
-  let colorThief = new ColorThief();
-  var playingCache = {};
+  const defaultArtwork = '/images/mascot.png';
+  const colorThief = new ColorThief();
+  let playingCache = {};
 
 
   /**
@@ -48,10 +48,15 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
 
   /**
    * Given the current state of the audio element,
-   * toggle it.
+   * toggle it. As this is a radio, we also want to
+   * seek to the end of the buffer when we start playing
+   * again.
    */
   function togglePlayback() {
     if(vm.mediaElement.paused) {
+      let curTime = vm.mediaElement.buffered.end(0);
+
+      vm.mediaElement.currentTime = curTime;
       vm.mediaElement.play();
     } else {
       vm.mediaElement.pause();
@@ -74,7 +79,7 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
    * Also updates the nowPlaying to match the current station
    * if the cache exists.
    */
-  let stationListener = (evt, station) => { 
+  let stationListener = (evt, station) => {
     vm.station = station;
 
     if(playingCache[station.shortcode]) {
@@ -98,16 +103,18 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
     var datum = data[vm.station.shortcode],
         externalData = datum.current_song.external,
         url = defaultArtwork;
-    
+
     /**
      * PVL offers external data that might provide
      * cover artwork for the track. If that exists,
      * parse it and load it into the model object
      * such that the view can load it.
      */
-    if(externalData.hasOwnProperty('bronytunes')) {
-      if(externalData.bronytunes.hasOwnProperty('image_url')) {
-        url = externalData.bronytunes.image_url;
+    if(externalData) {
+      if(externalData.hasOwnProperty('bronytunes')) {
+        if(externalData.bronytunes.hasOwnProperty('image_url')) {
+          url = externalData.bronytunes.image_url;
+        }
       }
     }
 
