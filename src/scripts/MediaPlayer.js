@@ -35,6 +35,22 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
   vm.station = null;
   // The raw audio DOM element
   vm.mediaElement = mediaElement[0];
+  // Default audio volume
+  vm.audioVolume = 1.0;
+  // Change the volume from icon clicks
+  vm.changeVolume = changeVolume;
+
+  /**
+   * We can't actually bind to the volume
+   * attr of audio elements, it's a read-once
+   * property. Instead, we need to listen for
+   * the scope model to change and set the
+   * property ourselves
+   */
+  $scope.$watch(
+    () => vm.audioVolume,
+    newVal => vm.mediaElement.volume = parseFloat(newVal)
+  );
 
   // Set up a regular "Now Playing" data refresh interval and store the $interval token for later disposal
   let refreshData = $interval(function(){
@@ -57,6 +73,23 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
       vm.mediaElement.play();
     } else {
       vm.mediaElement.pause();
+    }
+  }
+
+  /**
+   * Changes the volume of the media element
+   * by a given delta, clamped into valid ranges.
+   *
+   * @param {Number} A float to change the value by
+   */
+  function changeVolume(delta) {
+    let result = vm.audioVolume + delta;
+    if(result < 0) {
+      vm.audioVolume = 0;
+    } else if(result > 1) {
+      vm.audioVolume = 1;
+    } else {
+      vm.audioVolume = result;
     }
   }
 

@@ -15,7 +15,7 @@ function PvlService($http, $q, $sce, io) {
     }
 
     $http
-      .get(this.apiBase + "/station/list/category/" + type, {
+      .get(`${this.apiBase}/station/list/category/${type}`, {
         transformResponse: data => {
           var payload = JSON.parse(data),
               stations = payload.result;

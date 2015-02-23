@@ -50,7 +50,7 @@ pvl-media-player {
 		}
 	}
 
-	.mediaPlayer {
+	.media-player {
 		.artwork {
 			width: 100%;
 			height: 400px;
@@ -61,7 +61,7 @@ pvl-media-player {
 			}
 		}
 
-		.playerControls {
+		.player-controls {
 			padding-left: $sidePadding;
 			padding-right: $sidePadding;
 			white-space: nowrap;
@@ -79,11 +79,11 @@ pvl-media-player {
 				vertical-align: middle;
 			}
 
-			.playButton {
+			.play-button {
 				margin-right: $sidePadding;
 			}
 
-			.playButton,
+			.play-button,
 			.metadata {
 				display: inline-block;
 			}
@@ -94,9 +94,37 @@ pvl-media-player {
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
+
+			.volume-control {
+				.volume-up,
+				.volume-down {
+					font-size: 14px;
+					padding: 8px;
+				}
+
+				.volume-slider {
+					-webkit-appearance: none;
+
+					&::-webkit-slider-thumb {
+						-webkit-appearance: none;
+						border: none;
+						height: 16px;
+						width: 16px;
+						border-radius: 50%;
+						background-color: $pvlBlue;
+						margin-top: -6px; // height / 2 - (height of track)
+					}
+
+					&::-webkit-slider-runnable-track {
+						background: transparentize($pvlBlue, 0.7);
+						height: 2px;
+					}
+				}
+			}
+
 		}
 
-		.songHistory {
+		.song-history {
 			@include unpadded;
 			li {
 				height: 76px;
