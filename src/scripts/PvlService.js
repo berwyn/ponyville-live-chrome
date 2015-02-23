@@ -29,7 +29,7 @@ function PvlService($http, $q, $sce, io) {
                 var fileUrl = URL.createObjectURL(response);
                 station.safe_img_url = $sce.trustAsResourceUrl(fileUrl);
               })
-              .error(err => station.safe_img_url = '/images/pvl_128.png');
+              .error(() => station.safe_img_url = '/images/pvl_128.png');
           });
             
           return payload;

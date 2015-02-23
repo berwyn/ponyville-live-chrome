@@ -1,3 +1,4 @@
+/* global _, io, moment, ColorThief */
 angular
   .module('PVL', ['ngAnimate'])
   .constant('io', io)

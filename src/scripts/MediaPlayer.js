@@ -1,5 +1,5 @@
 /** ngInject **/
-function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, ColorThief) {
+function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
 
   /**
    * To make sure we have access to the viewmodel in all closures
@@ -12,7 +12,6 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
    * the code.
    */
   const defaultArtwork = '/images/mascot.png';
-  const colorThief = new ColorThief();
   let playingCache = {};
 
 
@@ -20,7 +19,6 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
    * These are jQuery elements we want to use
    */
   let mediaElement = angular.element('audio', $element);
-  let artworkImg = angular.element('.artwork img', $element);
   let flipEl = angular.element('.flipper');
 
   // The data for the currently playing track

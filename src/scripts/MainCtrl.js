@@ -1,3 +1,4 @@
+/* global chrome */
 /** ngInject **/
 function MainCtrl(PvlService, $rootScope) {
   var vm = this,
