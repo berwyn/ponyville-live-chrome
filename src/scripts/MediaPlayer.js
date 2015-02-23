@@ -1,11 +1,6 @@
 /** ngInject **/
-<<<<<<< HEAD
 function MediaPlayerCtrl($scope, $element, $timeout, EventBus, PvlService, ColorThief) {
 
-=======
-function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, ColorThief) {
-  
->>>>>>> improved-automatic-display-updates
   /**
    * To make sure we have access to the viewmodel in all closures
    * we declare it as a local, immutable variable.
@@ -42,7 +37,7 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
   vm.station = null;
   // The raw audio DOM element
   vm.mediaElement = mediaElement[0];
-  
+
   // Set up a regular "Now Playing" data refresh interval and store the $interval token for later disposal
   let refreshData = $interval(function(){
 	if (vm.isPlaying)
@@ -135,7 +130,7 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, Colo
 
   // If our scope is ever destoryed, stop listening to the event bus
 =======
-  
+
   // If our scope is ever destroyed, stop listening to the event bus
 >>>>>>> improved-automatic-display-updates
   $scope.$on('$destroy', () => {
