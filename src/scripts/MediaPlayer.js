@@ -1,5 +1,5 @@
 /** ngInject **/
-function MediaPlayerCtrl($scope, $element, $timeout, EventBus, PvlService, ColorThief) {
+function MediaPlayerCtrl($scope, $element, $interval, EventBus, PvlService, ColorThief) {
 
   /**
    * To make sure we have access to the viewmodel in all closures
@@ -40,10 +40,9 @@ function MediaPlayerCtrl($scope, $element, $timeout, EventBus, PvlService, Color
 
   // Set up a regular "Now Playing" data refresh interval and store the $interval token for later disposal
   let refreshData = $interval(function(){
-	if (vm.isPlaying)
-	{
-		vm.nowPlaying = playingCache[vm.station.shortcode];
-	}
+    if(vm.isPlaying) {
+      vm.nowPlaying = playingCache[vm.station.shortcode];
+    }
   }, 1000);
 
   /**
@@ -126,15 +125,10 @@ function MediaPlayerCtrl($scope, $element, $timeout, EventBus, PvlService, Color
   var unsubStationSelect  = EventBus.on('pvl:stationSelect', stationListener);
   // Listen for nowPlaying data
   var unsubNowPlaying     = EventBus.on('pvl:nowPlaying', nowPlayingListener);
-<<<<<<< HEAD
-
-  // If our scope is ever destoryed, stop listening to the event bus
-=======
 
   // If our scope is ever destroyed, stop listening to the event bus
->>>>>>> improved-automatic-display-updates
   $scope.$on('$destroy', () => {
-	$interval.cancel(refreshData);
+    $interval.cancel(refreshData);
     unsubStationSelect();
     unsubNowPlaying();
   });
