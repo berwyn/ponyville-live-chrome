@@ -1,7 +1,7 @@
 /* global chrome */
 /** ngInject **/
 function MainCtrl(PvlService, $rootScope) {
-  var vm = this,
+  let vm = this,
       version = chrome.runtime.getManifest().version,
       beta = true; // TODO: Figure out a better scheme for this?
 
@@ -9,9 +9,7 @@ function MainCtrl(PvlService, $rootScope) {
 
   PvlService
   	.getNowPlaying()
-  	.on('nowplaying', data => {
-  		$rootScope.$emit('pvl:nowPlaying', data);
-  	});
+  	.on('nowplaying', data => $rootScope.$emit('pvl:nowPlaying', data));
 }
 
 angular

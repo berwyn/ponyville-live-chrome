@@ -22,6 +22,10 @@
     "lodash": "~2.4.1",
     "moment": "~2.8.4",
     "socket.io-client": "~1.2.1",
-    "color-thief": "*"
+    "color-thief": "*",
+    "angular-material": "master"
+  },
+  "resolutions": {
+    "angular-material": "master"
   }
 }

@@ -1,5 +1,6 @@
 pvl-media-player {
 	$sidePadding: 16px;
+	$verticalPadding: 8px;
 	max-height: 100%;
 	max-width: 100%;
 
@@ -35,7 +36,7 @@ pvl-media-player {
 		}
 	}
 
-	.mediaPlaceholder {
+	.media-placeholder {
 		margin: 10%;
 		padding: 16px;
 		text-align: center;
@@ -62,10 +63,8 @@ pvl-media-player {
 		}
 
 		.player-controls {
-			padding-left: $sidePadding;
-			padding-right: $sidePadding;
+			padding: $verticalPadding $sidePadding;
 			white-space: nowrap;
-			height: 80px;
 			border-bottom: 1px solid rgba(0,0,0,0.1);
 
 			&:before {
@@ -125,6 +124,10 @@ pvl-media-player {
 						height: 2px;
 					}
 				}
+			}
+
+			.stream-select {
+				margin-top: inherit;
 			}
 
 		}

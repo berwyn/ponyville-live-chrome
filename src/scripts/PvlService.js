@@ -22,7 +22,6 @@ function PvlService($http, $q, $sce, io) {
 
           stations.forEach(station => {
             station.safe_img_url = '';
-            station.stream_url = $sce.trustAsResourceUrl(station.stream_url);
             $http
               .get(`${station.image_url}`, {responseType: 'blob'})
               .success(response => {

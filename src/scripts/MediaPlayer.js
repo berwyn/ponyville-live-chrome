@@ -1,5 +1,5 @@
 /** ngInject **/
-function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
+function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
 
   /**
    * To make sure we have access to the viewmodel in all closures
@@ -13,7 +13,6 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
    */
   const defaultArtwork = '/images/mascot.png';
   let playingCache = {};
-
 
   /**
    * These are jQuery elements we want to use
@@ -39,6 +38,10 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
   vm.audioVolume = 1.0;
   // Change the volume from icon clicks
   vm.changeVolume = changeVolume;
+  // Default stream name
+  vm.streamName = null;
+  // Default stream url
+  vm.streamUrl = null;
 
   /**
    * We can't actually bind to the volume
@@ -52,10 +55,31 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
     newVal => vm.mediaElement.volume = parseFloat(newVal)
   );
 
+  /**
+   * <md-select> doesn't currently let us track
+   * options by custom values, so we can only use
+   * displayed value, in this case the stream name.
+   * Because of this, we have to do some sorcery
+   * to actually change stream URLs.
+   */
+  $scope.$watch(
+    () => vm.streamName,
+    newVal => {
+      if(!newVal) return;
+
+      let url = _(vm.station.streams)
+        .find(s => s.name === newVal)
+        .url;
+
+      vm.streamUrl = $sce.trustAsResourceUrl(url);
+      loadNowPlaying();
+    }
+  );
+
   // Set up a regular "Now Playing" data refresh interval and store the $interval token for later disposal
   let refreshData = $interval(function(){
     if(vm.isPlaying) {
-      vm.nowPlaying = playingCache[vm.station.shortcode];
+      loadNowPlaying();
     }
   }, 1000);
 
@@ -94,6 +118,38 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
   }
 
   /**
+   * Multiple streams means multiple options
+   * for now-playing data. As such, we need
+   * a central way to load this so our interval
+   * and station listeners can both load it
+   * cleanly.
+   */
+  function loadNowPlaying(datum) {
+    let source = datum || playingCache[vm.station.shortcode];
+
+    let history = _(source.streams)
+      .find(d => d.name === vm.streamName);
+
+    let externalData = history.current_song.external,
+        url = defaultArtwork;
+
+    /**
+     * PVL offers external data that might provide
+     * cover artwork for the track. If that exists,
+     * parse it and load it into the model object
+     * such that the view can load it.
+     */
+    if(externalData) {
+      if(externalData.bronytunes) {
+        url = externalData.bronytunes.image_url || url;
+      }
+    }
+
+    vm.nowPlaying = history;
+    vm.artworkUrl = url;
+  }
+
+  /**
    * Binding DOM events to toggle our application state
    */
   mediaElement.on({
@@ -111,6 +167,8 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
    */
   let stationListener = (evt, station) => {
     vm.station = station;
+    vm.streamName = _(station.streams)
+        .find(s => s.id === station.default_stream_id).name;
 
     if(playingCache[station.shortcode]) {
       vm.nowPlaying = playingCache[station.shortcode];
@@ -130,26 +188,8 @@ function MediaPlayerCtrl($scope, $element, $interval, EventBus) {
 
     if(!vm.station) return;
 
-    var datum = data[vm.station.shortcode],
-        externalData = datum.current_song.external,
-        url = defaultArtwork;
-
-    /**
-     * PVL offers external data that might provide
-     * cover artwork for the track. If that exists,
-     * parse it and load it into the model object
-     * such that the view can load it.
-     */
-    if(externalData) {
-      if(externalData.hasOwnProperty('bronytunes')) {
-        if(externalData.bronytunes.hasOwnProperty('image_url')) {
-          url = externalData.bronytunes.image_url;
-        }
-      }
-    }
-
-    vm.nowPlaying = data[vm.station.shortcode];
-    vm.artworkUrl = url;
+    let datum = data[vm.station.shortcode];
+    loadNowPlaying(datum);
   };
 
   // Listen to station selections on the event bus
