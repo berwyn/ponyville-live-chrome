@@ -20,7 +20,7 @@
 					<span class="artist subhead">{{mediaPlayer.nowPlaying.current_song.artist}}</span>
 					<div class="flex flex-row volume-control">
 						<i class="fa fa-volume-down flex-base volume-down" ng-click="mediaPlayer.changeVolume(-0.05)"></i>
-						<input class="volume-slider flex-grow" ng-model="mediaPlayer.audioVolume" type="range" min="0.0" max="1.0" step="0.05">
+						<input name="volume" class="volume-slider flex-grow" ng-model="mediaPlayer.audioVolume" type="range" min="0.0" max="1.0" step="0.05">
 						<i class="fa fa-volume-up flex-base volume-up" ng-click="mediaPlayer.changeVolume(0.05)"></i>
 					</div>
 				</div>

@@ -182,6 +182,11 @@ $duration: 1.4s;
 	}
 
 	&.fab {
+		&:focus {
+			outline: none;
+			box-shadow: 0 0 0 4px transparentize($pvlBlue, 0.6);
+		}
+
 		width: 56px;
 		height: 56px;
 		border-radius: 50%;

@@ -105,6 +105,11 @@ pvl-media-player {
 				.volume-slider {
 					-webkit-appearance: none;
 
+					&:focus {
+						outline: 1px solid transparentize($pvlBlue, 0.6);
+						outline-offset: 2px;
+					}
+
 					&::-webkit-slider-thumb {
 						-webkit-appearance: none;
 						border: none;
