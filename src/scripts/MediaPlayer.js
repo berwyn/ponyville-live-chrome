@@ -15,10 +15,24 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
   let playingCache = {};
 
   /**
-   * These are jQuery elements we want to use
+   * The only way to prevent buffering is to not have an element
+   * on the page. As such, we're handling it from inside the
+   * controller. May the DOM burn in hell.
    */
-  let mediaElement = angular.element('audio', $element);
-  let flipEl = angular.element('.flipper');
+  function createMediaEl() {
+    let mediaEl = document.createElement('audio');
+    
+    mediaEl.setAttribute('volume', vm.audioVolume);
+    mediaEl.setAttribute('autoplay', true);
+    mediaEl.setAttribute('preload', 'auto');
+
+    mediaEl.onloadstart = () => $scope.$apply(() => vm.isLoading = true);
+    mediaEl.oncanplay   = () => $scope.$apply(() => vm.isLoading = false);
+    mediaEl.onplay      = () => $scope.$apply(() => vm.isPlaying = true);
+    mediaEl.onpause     = () => $scope.$apply(() => vm.isPlaying = false);
+
+    return mediaEl;
+  }
 
   // The data for the currently playing track
   vm.nowPlaying = null;
@@ -32,16 +46,15 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
   vm.togglePlayback = togglePlayback;
   // The currently selected station
   vm.station = null;
-  // The raw audio DOM element
-  vm.mediaElement = mediaElement[0];
   // Default audio volume
   vm.audioVolume = 1.0;
   // Change the volume from icon clicks
   vm.changeVolume = changeVolume;
   // Default stream name
   vm.streamName = null;
-  // Default stream url
-  vm.streamUrl = null;
+
+  let mediaEl = null;
+  let streamUrl = '';
 
   /**
    * We can't actually bind to the volume
@@ -52,7 +65,11 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
    */
   $scope.$watch(
     () => vm.audioVolume,
-    newVal => vm.mediaElement.volume = parseFloat(newVal)
+    newVal => {
+      if(mediaEl) {
+        mediaEl.volume = parseFloat(newVal);
+      }
+    }
   );
 
   /**
@@ -71,7 +88,12 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
         .find(s => s.name === newVal)
         .url;
 
-      vm.streamUrl = $sce.trustAsResourceUrl(url);
+      streamUrl = url;
+
+      if(mediaEl) {
+        mediaEl.setAttribute('src', streamUrl);
+      }
+
       loadNowPlaying();
     }
   );
@@ -90,13 +112,30 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
    * again.
    */
   function togglePlayback() {
-    if(vm.mediaElement.paused) {
-      let curTime = vm.mediaElement.buffered.end(0);
-
-      vm.mediaElement.currentTime = curTime;
-      vm.mediaElement.play();
+    if(mediaEl) {
+      stopStream();
     } else {
-      vm.mediaElement.pause();
+      startStream();
+    }
+  }
+
+  function startStream() {
+    if(!mediaEl) {
+      mediaEl = createMediaEl();
+      $element.append(mediaEl);
+    }
+    mediaEl.setAttribute('src', streamUrl);
+    vm.isLoading = true;
+  }
+
+  function stopStream() {
+    if(mediaEl) {
+      mediaEl.pause();
+      angular.element(mediaEl).remove();
+      mediaEl = null;
+
+      vm.isPlaying = false;
+      vm.isLoading = false;
     }
   }
 
@@ -150,16 +189,6 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
   }
 
   /**
-   * Binding DOM events to toggle our application state
-   */
-  mediaElement.on({
-    loadstart:  () => $scope.$apply(() => vm.isLoading = true),
-    canplay:    () => $scope.$apply(() => vm.isLoading = false),
-    play:       () => $scope.$apply(() => vm.isPlaying = true),
-    pause:      () => $scope.$apply(() => vm.isPlaying = false)
-  });
-
-  /**
    * Listen to the event bus and update the station to
    * be the one the user selected elsewhere in the application.
    * Also updates the nowPlaying to match the current station
@@ -173,10 +202,7 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
     if(playingCache[station.shortcode]) {
       vm.nowPlaying = playingCache[station.shortcode];
     }
-
-    if(flipEl.hasClass('flipped')) {
-      flipEl.toggleClass('double-flipped');
-    }
+    startStream();
   };
 
   /**

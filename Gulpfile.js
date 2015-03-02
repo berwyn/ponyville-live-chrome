@@ -1,5 +1,6 @@
 var gulp        = require('gulp'),
     traceur     = require('gulp-traceur'),
+    babel       = require('gulp-babel'),
     sourcemaps  = require('gulp-sourcemaps'),
     concat      = require('gulp-concat'),
     ngInject    = require('gulp-ng-annotate'),
@@ -72,7 +73,7 @@ gulp.task('js', function() {
         .pipe(jshint(jshintConfig))
         .pipe(jshint.reporter(stylish))
         .pipe(sourcemaps.init())
-        .pipe(traceur())
+        .pipe(babel())
         .pipe(ngInject())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write())
