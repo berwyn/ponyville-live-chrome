@@ -22,9 +22,9 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
   function createMediaEl() {
     let mediaEl = document.createElement('audio');
     
-    mediaEl.setAttribute('volume', vm.audioVolume);
     mediaEl.setAttribute('autoplay', true);
     mediaEl.setAttribute('preload', 'auto');
+    mediaEl.volume = vm.audioVolume;
 
     mediaEl.onloadstart = () => $scope.$apply(() => vm.isLoading = true);
     mediaEl.oncanplay   = () => $scope.$apply(() => vm.isLoading = false);
