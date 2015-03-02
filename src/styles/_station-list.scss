@@ -17,6 +17,13 @@ pvl-station-list {
 			border-bottom: none;
 			min-height: 80px;
 
+			&.offline {
+				.icon {
+					-webkit-filter: greyscale(100%);
+					filter: greyscale(100%);
+				}
+			}
+
 			&.selected {
 				background-color: $listPlayingBackground;
 				color: white;

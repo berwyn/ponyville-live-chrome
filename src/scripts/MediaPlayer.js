@@ -72,6 +72,22 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
     }
   );
 
+  function changeStream(streamName) {
+    if(!streamName) return;
+
+    let url = _(vm.station.streams)
+      .find(s => s.name === streamName)
+      .url;
+
+    streamUrl = url;
+
+    if(mediaEl) {
+      mediaEl.setAttribute('src', streamUrl);
+    }
+
+    loadNowPlaying();
+  }
+
   /**
    * <md-select> doesn't currently let us track
    * options by custom values, so we can only use
@@ -81,21 +97,7 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
    */
   $scope.$watch(
     () => vm.streamName,
-    newVal => {
-      if(!newVal) return;
-
-      let url = _(vm.station.streams)
-        .find(s => s.name === newVal)
-        .url;
-
-      streamUrl = url;
-
-      if(mediaEl) {
-        mediaEl.setAttribute('src', streamUrl);
-      }
-
-      loadNowPlaying();
-    }
+    newVal => changeStream(newVal)
   );
 
   // Set up a regular "Now Playing" data refresh interval and store the $interval token for later disposal
@@ -120,6 +122,7 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
   }
 
   function startStream() {
+    stopStream();
     if(!mediaEl) {
       mediaEl = createMediaEl();
       $element.append(mediaEl);
@@ -198,10 +201,8 @@ function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {
     vm.station = station;
     vm.streamName = _(station.streams)
         .find(s => s.id === station.default_stream_id).name;
-
-    if(playingCache[station.shortcode]) {
-      vm.nowPlaying = playingCache[station.shortcode];
-    }
+    changeStream(vm.streamName);
+    loadNowPlaying();
     startStream();
   };
 

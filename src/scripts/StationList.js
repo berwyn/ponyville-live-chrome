@@ -8,6 +8,10 @@ function StationListCtrl($scope, EventBus, PvlService) {
   vm.setSelected = setSelected;
 
   function setSelected(index) {
+    if(vm.stations[index].streams.length === 0) {
+      return;
+    }
+    
     vm.currentIndex = index;
     EventBus.emit('pvl:stationSelect', vm.stations[index]);
   }

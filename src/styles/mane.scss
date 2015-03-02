@@ -256,5 +256,11 @@ body {
 	}
 }
 
+// We need to get around a Sass error here
+// https://github.com/sass/libsass/issues/151
+@function greyscale($value) {
+	@return #{ "grayscale("+$value+")" };
+}
+
 @import "station-list";
 @import "media-player";
