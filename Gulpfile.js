@@ -1,21 +1,22 @@
 var gulp        = require('gulp'),
-    traceur     = require('gulp-traceur'),
-    babel       = require('gulp-babel'),
     sourcemaps  = require('gulp-sourcemaps'),
     concat      = require('gulp-concat'),
     ngInject    = require('gulp-ng-annotate'),
     sass        = require('gulp-sass'),
     jshint      = require('gulp-jshint'),
     stylish     = require('jshint-stylish'),
-    del         = require('del');
+    del         = require('del'),
+    browserify  = require('browserify'),
+    babelify    = require('babelify'),
+    through2    = require('through2');
 
 var paths = {
     js: [
         '!src/scripts/background.js',
-        'src/scripts/app.js', // Defines the module, so needs to come 1st
         'src/scripts/*.js'
     ],
     vendor: [
+        'bower_components/commonjs/common.js',
         'bower_components/jquery/dist/jquery.js',
         'bower_components/angular/angular.js',
         'bower_components/angular-animate/angular-animate.js',
@@ -42,6 +43,15 @@ var paths = {
     manifest: 'src/manifest.json',
     background: 'src/scripts/background.js'
 };
+
+var browserified = through2.obj(function(file, enc, next) {
+    browserify(file.path)
+        .transform(babelify)
+        .bundle(function(err, res) {
+            file.contents = res;
+            next(null, file);
+        });
+});
 
 gulp.task('build', [
     'js',
@@ -72,8 +82,8 @@ gulp.task('js', function() {
     return gulp.src(paths.js)
         .pipe(jshint(jshintConfig))
         .pipe(jshint.reporter(stylish))
+        .pipe(browserified)
         .pipe(sourcemaps.init())
-        .pipe(babel())
         .pipe(ngInject())
         .pipe(concat('app.js'))
         .pipe(sourcemaps.write())

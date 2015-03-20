@@ -4,6 +4,8 @@
     "url": "git@github.com:berwyn/Ponyville-Live--Desktop-App.git"
   },
   "dependencies": {
+    "babelify": "^5.0.4",
+    "browserify": "^9.0.3",
     "del": "~0.1.3",
     "gulp": "~3.8.10",
     "gulp-babel": "^4.0.0",
@@ -14,7 +16,8 @@
     "gulp-sourcemaps": "~1.2.8",
     "gulp-traceur": "~0.14.1",
     "jshint-stylish": "~1.0.0",
-    "traceur": "0.0.78"
+    "through2": "^0.6.3",
+    "vinyl-transform": "^1.0.0"
   },
   "private": true
 }
