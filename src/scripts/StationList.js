@@ -24,6 +24,7 @@ export default function(module) {
       
       vm.currentIndex = index;
       EventBus.emit('pvl:stationSelect', vm.stations[index]);
+      EventBus.emit('pvl:selection', {type: 'audio'});
     }
 
     PvlService.getStations(vm.type)

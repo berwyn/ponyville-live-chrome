@@ -27,7 +27,16 @@
 			<div layout="column" flex>
 				<md-card layout="column">
 					<md-content class="md-padding">
-						<pvl-media-player flex></pvl-media-player>
+						<div>
+							<div class="placeholder" 
+								ng-show="main.selection === 'placeholder'">
+								<img src="/images/mascot.png" alt="Mascot">
+							</div>
+							<div class="mediaPlayer" 
+								ng-show="main.selection === 'audio'">
+								<pvl-media-player></pvl-media-player>
+							</div>
+						</div>
 						<footer layout="row" layout-align="space-between center">
 							<a href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487" target="_blank">
 								<img src="images/facebook.png" alt="Like and Follow us on Facebook to keep up to date with changes" />

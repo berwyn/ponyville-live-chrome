@@ -7,8 +7,7 @@ export default function(module) {
     vm.shows = [];
 
     PvlService.getShows()
-      .then(shows => vm.shows = shows)
-      .catch(err => console.log);
+      .then(shows => vm.shows = shows);
   }
 
   function ShowListDirective() {
