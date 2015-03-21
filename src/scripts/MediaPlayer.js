@@ -27,10 +27,9 @@ export default function(module) {
       mediaEl.setAttribute('preload', 'auto');
       mediaEl.volume = vm.audioVolume;
 
-      mediaEl.onloadstart = () => $scope.$apply(() => vm.isLoading = true);
-      mediaEl.oncanplay   = () => $scope.$apply(() => vm.isLoading = false);
-      mediaEl.onplay      = () => $scope.$apply(() => vm.isPlaying = true);
-      mediaEl.onpause     = () => $scope.$apply(() => vm.isPlaying = false);
+      mediaEl.onloadstart = () => $scope.$apply(() => vm.state = 'loading');
+      mediaEl.onplay      = () => $scope.$apply(() => vm.state = 'playing');
+      mediaEl.onpause     = () => $scope.$apply(() => vm.state = 'stopped');
 
       return mediaEl;
     }
@@ -39,10 +38,6 @@ export default function(module) {
     vm.nowPlaying = null;
     // URL to the current song's cover art
     vm.artworkUrl = defaultArtwork;
-    // Whether the audio elements loading indicator should show
-    vm.isLoading = true;
-    // Whether the audio element is in playback
-    vm.isPlaying = false;
     // viewmodel binding for our toggle function
     vm.togglePlayback = togglePlayback;
     // The currently selected station
@@ -53,6 +48,8 @@ export default function(module) {
     vm.changeVolume = changeVolume;
     // Default stream name
     vm.streamName = null;
+    // The player's playback state
+    vm.state = 'loading';
 
     let mediaEl = null;
     let streamUrl = '';

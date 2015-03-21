@@ -1,169 +1,36 @@
 pvl-media-player {
-	$sidePadding: 16px;
-	$verticalPadding: 8px;
-	max-height: 100%;
-	max-width: 100%;
-
-	@keyframes basicFadeOut {
-		0% {
-			height: auto;
-			opacity: 1;
-		}
-		50% {
-			height: 0;
-			opacity: 0;
-		}
+	.player-controls {
+		margin-bottom: 16px;
 	}
 
-	@keyframes basicFadeIn {
-		0% {
-			height: 0%;
-			opacity: 0;
-		}
-		50% {
-			height: auto;
-			opacity: 1;
-		}
+	.stream-icon {
+		font-size: 20px;
 	}
 
-	.card {
-		margin: 10%;
-
-		.front,
-		.back {
-			.ng-enter { animation: 1s basicFadeIn ease; }
-			.ng-exit { animation: 1s basicFadeOut ease; }
-		}
+	.loading-indicator {
+		margin-top: -3px;
+		margin-left: -3px;
 	}
 
-	.media-placeholder {
-		margin: 10%;
+	.metadata {
+		margin-left: 8px;
+	}
+
+	.volume {
+		margin-left: 16px;
+		margin-right: 16px;
+	}
+
+	.track,
+	.artist,
+	.song-info {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.song-item {
 		padding: 16px;
-		text-align: center;
-
-		img, span {
-			margin: auto;
-			display: block;
-		}
-
-		img {
-			max-height: 64vh;
-		}
-	}
-
-	.media-player {
-		.artwork {
-			width: 100%;
-			height: 400px;
-			text-align: center;
-			img {
-				max-width: 100%;
-				max-height: 100%;
-			}
-		}
-
-		.player-controls {
-			padding: $verticalPadding $sidePadding;
-			white-space: nowrap;
-			border-bottom: 1px solid rgba(0,0,0,0.1);
-
-			&:before {
-				content: '';
-				display: inline-block;
-				height: 100%;
-				vertical-align: middle;
-			}
-
-			> * {
-				vertical-align: middle;
-			}
-
-			.play-button {
-				margin-right: $sidePadding;
-			}
-
-			.play-button,
-			.metadata {
-				display: inline-block;
-			}
-
-			.track, .artist {
-				display: block;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-
-			.volume-control {
-				.volume-up,
-				.volume-down {
-					font-size: 14px;
-					padding: 8px;
-				}
-
-				.volume-slider {
-					-webkit-appearance: none;
-
-					&:focus {
-						outline: 1px solid transparentize($pvlBlue, 0.6);
-						outline-offset: 2px;
-					}
-
-					&::-webkit-slider-thumb {
-						-webkit-appearance: none;
-						border: none;
-						height: 16px;
-						width: 16px;
-						border-radius: 50%;
-						background-color: $pvlBlue;
-						margin-top: -6px; // height / 2 - (height of track)
-					}
-
-					&::-webkit-slider-runnable-track {
-						background: transparentize($pvlBlue, 0.7);
-						height: 2px;
-					}
-				}
-			}
-
-			.stream-select {
-				margin-top: inherit;
-			}
-
-		}
-
-		.song-history {
-			@include unpadded;
-			li {
-				height: 76px;
-				padding-left: $sidePadding;
-				padding-right: $sidePadding;
-				overflow: hidden;
-				border-bottom: 1px solid rgba(0,0,0,0.1);
-
-				&:before {
-					content: '';
-					display: inline-block;
-					vertical-align: middle;
-					height: 100%;
-				}
-
-				div {
-					display: inline-block;
-					vertical-align: middle;
-				}
-
-				&:last-child {
-					border-bottom: none;
-				}
-
-				span {
-					display: block;
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-				}
-			}
-		}
 	}
 }

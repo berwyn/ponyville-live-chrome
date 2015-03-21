@@ -24,7 +24,8 @@
     "socket.io-client": "~1.2.1",
     "color-thief": "*",
     "angular-material": "master",
-    "commonjs": "~0.2.0"
+    "commonjs": "~0.2.0",
+    "material-design-icons": "~1.0.1"
   },
   "resolutions": {
     "angular-material": "master"

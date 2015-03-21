@@ -1,93 +1,24 @@
 pvl-station-list {
-	.station-list {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		overflow: overlay;
-		@include unpadded;
+	.icon {
+		width: 48px;
+		margin: 16px;
+	}
 
-		.station {
-			padding: 10px;
-			padding-bottom: 15px;
-			color: $listText;
-			cursor: pointer;
-			background-color: white;
-			border: 1px solid $listBorder;
-			border-bottom: none;
-			min-height: 80px;
+	.selected {
+		background-color: $pvlBlue;
+		color: white;
+	}
 
-			&.offline {
-				.icon {
-					-webkit-filter: greyscale(100%);
-					filter: greyscale(100%);
-				}
-			}
+	.md-tile-content {
+		overflow: hidden;
+	}
 
-			&.selected {
-				background-color: $listPlayingBackground;
-				color: white;
-				&:hover {
-					background-color: lighten($listPlayingBackground, 10%);
-				}
-				.genre {
-					color: lighten($lightGrey, 30%);
-				}
-			}
-
-			&:hover {
-				background: $listHoverBackground;
-			}
-
-			&:first-child {
-				border-top: none;
-			}
-
-			&:before {
-				content: '';
-				height: 100%;
-				display: inline-block;
-				vertical-align: middle;
-			}
-
-			.icon,
-			.details {
-				display: inline;
-				vertical-align: middle;
-			}
-
-			.details {
-				width: 200px;
-				float: right;
-
-				> * {
-					display: block;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-			}
-
-			.icon {
-				max-width: 64px;
-				margin-right: 10px;
-			}
-
-			.name {
-				font-weight: 900;
-				font-size: 14px;
-			}
-
-			.genre {
-				font-weight: 400;
-				font-size: 12px;
-				color: $lightGrey;
-			}
-
-			.now-playing-title {
-				font-weight: 800;
-				font-size: 13px;
-			}
-		}
+	.name,
+	.genre,
+	[class*='now-playing'] {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }

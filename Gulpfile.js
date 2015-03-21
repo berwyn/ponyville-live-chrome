@@ -35,7 +35,13 @@ var paths = {
     html: [
         'src/*.html'
     ],
-    images: 'src/images/*',
+    images: [
+        'src/images/*',
+        'bower_components/material-design-icons/av/svg/production/ic_play_arrow_48px.svg',
+        'bower_components/material-design-icons/av/svg/production/ic_stop_48px.svg',
+        'bower_components/material-design-icons/av/svg/production/ic_volume_down_48px.svg',
+        'bower_components/material-design-icons/av/svg/production/ic_volume_up_48px.svg'
+    ],
     fonts: [
         'src/fonts/*',
         'bower_components/font-awesome/fonts/*'
@@ -43,15 +49,6 @@ var paths = {
     manifest: 'src/manifest.json',
     background: 'src/scripts/background.js'
 };
-
-var browserified = through2.obj(function(file, enc, next) {
-    browserify(file.path)
-        .transform(babelify)
-        .bundle(function(err, res) {
-            file.contents = res;
-            next(null, file);
-        });
-});
 
 gulp.task('build', [
     'js',
@@ -78,6 +75,15 @@ gulp.task('js', function() {
     var jshintConfig = {
         esnext: true
     };
+
+    var browserified = through2.obj(function(file, enc, next) {
+        browserify(file.path)
+            .transform(babelify)
+            .bundle(function(err, res) {
+                file.contents = res;
+                next(null, file);
+            });
+    });
 
     return gulp.src(paths.js)
         .pipe(jshint(jshintConfig))

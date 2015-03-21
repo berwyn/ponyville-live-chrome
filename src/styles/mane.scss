@@ -49,38 +49,6 @@ $duration: 1.4s;
 	height: 100%;
 }
 
-.pull-left {
-	float: left;
-}
-
-.pull-right {
-	float: right;
-}
-
-.flex {
-	display: flex;
-
-	&.flex-column {
-		flex-direction: column;
-	}
-
-	&.flex-row {
-		flex-direction: row;
-	}
-
-	&.flex-center {
-		align-items: center;
-	}
-
-	.flex-grow {
-		flex: 1;
-	}
-
-	.flex-base {
-		flex: 0 1 auto;
-	}
-}
-
 @mixin regular-font {
 	font-weight: 400;
 }
@@ -93,121 +61,64 @@ $duration: 1.4s;
 	font-weight: 300;
 }
 
-
-
-.material {
-	font-family: 'Noto Sans';
-
-	span {
-		&.display4 {
-			font-size: 112px;
-			@include light-font;
-		}
-
-		&.display3 {
-			font-size: 56px;
-			@include regular-font;
-		}
-
-		&.display2 {
-			font-size: 45px;
-			@include regular-font;
-		}
-
-		&.display1 {
-			font-size: 34px;
-			@include regular-font;
-		}
-
-		&.headline {
-			font-size: 24px;
-			@include regular-font;
-		}
-
-		&.title {
-			font-size: 20px;
-			@include medium-font;
-		}
-
-		&.subhead {
-			font-size: 15px;
-			@include regular-font;
-		}
-
-		&.body2 {
-			font-size: 13px;
-			@include medium-font;
-		}
-
-		&.body1 {
-			font-size: 13px;
-			@include regular-font;
-		}
-
-		&.caption {
-			font-size: 12px;
-			@include regular-font;
-		}
-	}
-
-	.card {
-		background-color: white;
-		border-radius: 2px;
-		box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
-	}
-
-	.loader {
-		// http://codepen.io/mrrocks/pen/EiplA <3
-		.spinner {
-			animation: rotator $duration linear infinite;
-		}
-
-
-		.path {
-			stroke: white;
-			stroke-dasharray: $offset;
-			stroke-dashoffset: 0;
-			transform-origin: center;
-			animation: dash $duration ease-in-out infinite;
-		}
-	}
-}
-
-.btn {
-	padding: 10px;
-
-	&.blank-btn {
-		background: none;
-		border: none;
-	}
-
-	&.fab {
-		&:focus {
-			outline: none;
-			box-shadow: 0 0 0 4px transparentize($pvlBlue, 0.6);
-		}
-
-		width: 56px;
-		height: 56px;
-		border-radius: 50%;
-		border-width: 0;
-		color: #fff;
-		overflow: hidden;
-		transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		transition-delay: 0.2s;
-		box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-		font-size: 15px;
-
-		&.blue {
-			background-color: $listPlayingBackground;
-		}
-	}
-}
-
 html,body {
 	@include full-size;
 	@include unpadded;
+	font-family: 'Noto Sans';
 }
+
+span {
+	&.display4 {
+		font-size: 112px;
+		@include light-font;
+	}
+
+	&.display3 {
+		font-size: 56px;
+		@include regular-font;
+	}
+
+	&.display2 {
+		font-size: 45px;
+		@include regular-font;
+	}
+
+	&.display1 {
+		font-size: 34px;
+		@include regular-font;
+	}
+
+	&.headline {
+		font-size: 24px;
+		@include regular-font;
+	}
+
+	&.title {
+		font-size: 20px;
+		@include medium-font;
+	}
+
+	&.subhead {
+		font-size: 15px;
+		@include regular-font;
+	}
+
+	&.body2 {
+		font-size: 13px;
+		@include medium-font;
+	}
+
+	&.body1 {
+		font-size: 13px;
+		@include regular-font;
+	}
+
+	&.caption {
+		font-size: 12px;
+		@include regular-font;
+	}
+}
+
 
 body {
 	background: white url('../images/bg.jpg') no-repeat fixed center;
