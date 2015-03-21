@@ -10,13 +10,14 @@ The chrome application is designed to make it simpler and easier for users to tu
 Version
 ----
 
-v0.0.2_BETA
+v0.3.0_BETA
 
 **If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
+* **v0.3.0_BETA** - Introduces Material Angular, providing a better UI, as well as adding the basics to support video streams and Podcasts!
 * **v0.2.0_BETA** - A total rewrite in Angular.js, allowing the app to be far more flexible
 * **v0.1.10_BETA** - v0.2.0 Pre-Release | Fix to handle new update to the PVL public API | Total code re-write
 * **v0.1.7** - Added facebook button to the app
@@ -33,8 +34,6 @@ Change List
 
 Installation
 --------------
-To install, clone this git repo, ```git clone https://github.com/TheAuzzieBrony/Ponyville-Live--Desktop-App.git```, or down load the zip (on the left of this repo). Browse to ```chrome://extensions/``` in your Google Chrome Browser and drag the file ```packaged/ponyville.live.app.crx``` onto your chrome browser window
-
 To install from the source code, you'll need Node.js, npm, Gulp, and Bower.
 With these installed and the repo cloned, you can
 ```bash

@@ -1,7 +1,7 @@
 {
 	"name":"Ponyville Live! Desktop App",
 	"description":"An all in one location for all your favourite pony stations!",
-	"version": "0.2.0.1",
+	"version": "0.3.0",
 	"manifest_version": 2,
 	"offline_enabled": false,
 	"app": {
@@ -23,9 +23,7 @@
 		"webview", 
 		"contextMenus", 
 		"*://ponyvillelive.com/*", 
-		"*://bronytunes.com/*", 
-		"*://cdn.embedly.com/*", 
-		"*://api.embed.ly/*"
+		"*://bronytunes.com/*"
   ]
 }
  
