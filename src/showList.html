@@ -1,0 +1,15 @@
+<md-list>
+	<md-item
+		ng-repeat="show in showList.shows">
+		<md-item-content>
+			<div class="md-tile-left">
+				<img class="icon" alt="{{::show.name}}" ng-src="{{show.safeImgUrl}}" />
+			</div>
+			<div class="md-tile-content">
+				<span class="headline name">{{show.name}}</span>
+				<span class="subhead description">{{show.description}}</span>
+			</div>
+		</md-item-content>
+		<md-divider ng-if="!$last" />
+	</md-item>
+</md-list>

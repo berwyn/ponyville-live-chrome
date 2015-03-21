@@ -1,6 +1,6 @@
 export default function(module) {
   /** ngInject **/
-  function StationListCtrl($scope, EventBus, PvlService) {
+  function StationListCtrl($scope, $mdToast, EventBus, PvlService) {
     let vm = this;
 
     vm.imgUrls = {};
@@ -9,6 +9,15 @@ export default function(module) {
     vm.setSelected = setSelected;
 
     function setSelected(index) {
+      if(vm.stations[index].category === 'video') {
+        let toast = $mdToast.simple()
+          .content('Video streams aren\'t currently supported :(')
+          .capsule(false);
+
+        $mdToast.show(toast);
+        return;
+      }
+
       if(vm.stations[index].streams.length === 0 || vm.stations[index].offline) {
         return;
       }
@@ -17,7 +26,7 @@ export default function(module) {
       EventBus.emit('pvl:stationSelect', vm.stations[index]);
     }
 
-    PvlService.getStations('audio')
+    PvlService.getStations(vm.type)
       .then(stations => vm.stations = stations);
 
     let nowPlayingListener = (event, data) => {
@@ -34,7 +43,9 @@ export default function(module) {
     return {
       restrict: 'E',
       templateUrl: '/stationList.html',
-      scope: true,
+      scope: {
+        type: '@'
+      },
       controller: StationListCtrl,
       controllerAs: 'stationList',
       bindToController: true

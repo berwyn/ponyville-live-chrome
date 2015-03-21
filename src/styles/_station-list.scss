@@ -1,4 +1,10 @@
 pvl-station-list {
+	.offline {
+		.icon {
+			-webkit-filter: greyscale(100%);
+		}
+	}
+
 	.icon {
 		width: 48px;
 		margin: 16px;

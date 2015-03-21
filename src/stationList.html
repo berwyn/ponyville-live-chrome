@@ -1,9 +1,11 @@
 <md-list>
-	<md-item ng-repeat="station in stationList.stations"
-			ng-click="stationList.setSelected($index)">
+	<md-item
+		ng-class="{offline: station.offline || station.category === 'video'}"
+		ng-repeat="station in stationList.stations"
+		ng-click="stationList.setSelected($index)">
 		<md-item-content ng-class="{selected: ($index === stationList.currentIndex)}">
 			<div class="md-tile-left">
-				<img class="icon" alt="{{::station.name}}" ng-src="{{station.safe_img_url}}">
+				<img class="icon" alt="{{::station.name}}" ng-src="{{station.safeImgUrl}}">
 			</div>
 			<div class="md-tile-content">
 				<span class="name headline">{{::station.name}}</span>

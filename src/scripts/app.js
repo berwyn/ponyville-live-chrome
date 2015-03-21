@@ -5,6 +5,7 @@ import {default as MediaPlayer} from "./MediaPlayer";
 import {default as OfflineFilter} from "./OfflineFilter";
 import {default as PvlService} from "./PvlService";
 import {default as StationList} from "./StationList";
+import {default as ShowList} from "./ShowList";
 
 /* global _, io, moment, ColorThief */
 var ngMod = angular
@@ -27,3 +28,4 @@ MediaPlayer(ngMod);
 OfflineFilter(ngMod);
 PvlService(ngMod);
 StationList(ngMod);
+ShowList(ngMod);
