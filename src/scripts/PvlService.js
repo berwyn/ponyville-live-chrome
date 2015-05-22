@@ -1,8 +1,8 @@
 export default function(module) {
   /** ngInject **/
   function PvlService($http, $q, $sce, io) {
-    let apiHost = "https://ponyvillelive.com";
-    let apiBase = `${apiHost}/api`;
+    let apiHost = "https://api.ponyvillelive.com";
+    let apiBase = `${apiHost}`;
 
     var socket,
         stationCache = {},

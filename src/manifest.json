@@ -22,7 +22,7 @@
 		"storage", 
 		"webview", 
 		"contextMenus", 
-		"*://ponyvillelive.com/*", 
+		"*://*.ponyvillelive.com/*", 
 		"*://bronytunes.com/*"
   ]
 }

@@ -1,51 +1,47 @@
 <!DOCTYPE html>
 <html ng-csp ng-strict-di ng-app="PVL">
 	<head>
-		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<meta name="viewport" content="initial-scale=1" />
 		<link rel="stylesheet" type="text/css" href="/styles/mane.css" />
-
 		<script src="/scripts/vendor.js" type="text/javascript"></script>
 		<script src="/scripts/app.js" type="text/javascript"></script>
 	</head>
-	<body ng-controller="MainCtrl as main">
-		<div flex layout="row">
-			<div layout="column" flex="40">
-				<md-content flex>
-					<md-tabs class="md-primary" md-selected="0">
-						<md-tab label="Radio">
-							<pvl-station-list type="audio"></pvl-station-list>
-						</md-tab>
-						<md-tab label="video">
-							<pvl-station-list type="video"></pvl-station-list>
-						</md-tab>
-						<md-tab label="shows">
-							<pvl-show-list></pvl-show-list>
-						</md-tab>
-					</md-tabs>
-				</md-content>
-			</div>
-			<div layout="column" flex>
-				<md-card layout="column">
-					<md-content class="md-padding">
-						<div>
-							<div class="placeholder" 
-								ng-show="main.selection === 'placeholder'">
-								<img src="/images/mascot.png" alt="Mascot">
-							</div>
-							<div class="mediaPlayer" 
-								ng-show="main.selection === 'audio'">
-								<pvl-media-player></pvl-media-player>
-							</div>
+	<body ng-controller="MainCtrl as main" layout="row">
+		<div layout="column" flex="40">
+			<md-content flex>
+				<md-tabs class="md-primary" md-selected="0">
+					<md-tab label="Radio">
+						<pvl-station-list type="audio"></pvl-station-list>
+					</md-tab>
+					<md-tab label="video">
+						<pvl-station-list type="video"></pvl-station-list>
+					</md-tab>
+					<md-tab label="shows">
+						<pvl-show-list></pvl-show-list>
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		</div>
+		<div layout="column" flex>
+			<md-card layout="column">
+				<md-content class="md-padding">
+					<div>
+						<div class="placeholder" ng-show="main.selection === 'placeholder'">
+							<img src="/images/mascot.png" alt="Mascot">
 						</div>
-						<footer layout="row" layout-align="space-between center">
-							<a href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487" target="_blank">
+						<div class="mediaPlayer" ng-show="main.selection === 'audio'">
+							<pvl-media-player></pvl-media-player>
+						</div>
+					</div>
+					<footer layout="row" layout-align="space-between center">
+						<a href="https://www.facebook.com/pages/Ponyville-Live-Desktop-App/1646960718862487" target="_blank">
 								<img src="images/facebook.png" alt="Like and Follow us on Facebook to keep up to date with changes" />
 							</a>
-							<h5>App Version: {{main.appVersion}}</h5>
-						</footer>
-					</md-content>
-				</md-card>
-			</div>
+						<h5>App Version: {{main.appVersion}}</h5>
+					</footer>
+				</md-content>
+			</md-card>
 		</div>
 	</body>
+
 </html>
