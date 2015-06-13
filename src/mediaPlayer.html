@@ -4,56 +4,32 @@
 			<md-item>
 				<md-item-content>
 					<div class="player-controls" layout="row" flex>
-						<md-button class="md-fab md-raised md-primary"
-							ng-click="mediaPlayer.togglePlayback()"
-							ng-switch on="mediaPlayer.state"
-							aria-label="Toggle playback">
-							<md-progress-circular
-								class="md-hue-3 loading-indicator" 
-								md-mode="indeterminate"
-								md-diameter="36"
-								ng-switch-when="loading"></md-progress-circular>
-							<md-icon 
-								md-svg-src="images/ic_play_arrow_48px.svg"
-								ng-switch-when="stopped"></md-icon>
-							<md-icon 
-								md-svg-src="images/ic_stop_48px.svg"
-								ng-switch-when="playing"></md-icon>
+						<md-button class="md-fab md-raised md-primary" ng-click="mediaPlayer.togglePlayback()" ng-switch on="mediaPlayer.state"
+						aria-label="Toggle playback">
+							<div ng-switch-when="loading">
+								<md-progress-circular class="md-hue-3 loading-indicator" md-mode="indeterminate" md-diameter="36"></md-progress-circular>
+							</div>
+							<div ng-switch-when="stopped">
+								<md-icon md-svg-icon="av:ic_play_arrow_24px"></md-icon>
+							</div>
+							<div ng-switch-when="playing">
+								<md-icon md-svg-icon="av:ic_stop_24px"></md-icon>
+							</div>
 						</md-button>
 						<div class="metadata" layout="column" flex>
 							<span class="track headline">{{mediaPlayer.nowPlaying.current_song.title}}</span>
 							<span class="artist subhead">{{mediaPlayer.nowPlaying.current_song.artist}}</span>
 							<div class="volume-control" layout="row">
-								<md-icon
-									alt="volume down"
-									md-svg-src="images/ic_volume_down_48px.svg"
-									ng-click="mediaPlayer.changeVolume(-0.05)"></md-icon>
-								<md-slider flex
-									class="volume"
-									ng-model="mediaPlayer.audioVolume" 
-									min="0.0" 
-									max="1.0"
-									step="0.05"
-									aria-label="Volume"></md-slider>
-								<md-icon
-									alt="volume up"
-									md-svg-src="images/ic_volume_up_48px.svg"
-									ng-click="mediaPlayer.changeVolume(0.05)"></md-icon>
+								<md-icon alt="volume down" md-svg-icon="av:ic_volume_down_24px" ng-click="mediaPlayer.changeVolume(-0.05)"></md-icon>
+								<md-slider flex class="volume" ng-model="mediaPlayer.audioVolume" min="0.0" max="1.0" step="0.05" aria-label="Volume"></md-slider>
+								<md-icon alt="volume up" md-svg-icon="av:ic_volume_up_24px" ng-click="mediaPlayer.changeVolume(0.05)"></md-icon>
 							</div>
-							<div ng-show="mediaPlayer.station.streams.length > 1">
-								<md-icon
-									class="stream-icon"
-									alt="Select a stream"
-									md-font-icon="fa fa-code-fork"></md-icon>
-								<md-select 
-									class="stream-select" 
-									ng-model="mediaPlayer.streamName" 
-									placeholder="Stream">
-									<md-option 
-										ng-repeat="stream in mediaPlayer.station.streams" 
-										ng-value="stream.name"
-										ng-if="!!stream.url">{{stream.name}}</md-option>
+							<div ng-show="mediaPlayer.station.streams.length > 1" layout="row">
+								<md-icon class="stream-icon" alt="Select a stream" md-svg-icon="av:ic_shuffle_24px"></md-icon>
+								<md-select class="stream-select" ng-model="mediaPlayer.streamName" placeholder="Stream">
+									<md-option ng-repeat="stream in mediaPlayer.station.streams" ng-value="stream.name" ng-if="!!stream.url">{{stream.name}}</md-option>
 								</md-select>
+								<div class="spacer" flex></div>
 							</div>
 						</div>
 					</div>

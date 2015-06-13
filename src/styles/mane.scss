@@ -173,6 +173,17 @@ body {
 	@return #{ "grayscale("+$value+")" };
 }
 
+.one-line {
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+
+.mascot {
+	max-height: 500px;
+	width: auto;
+}
+
 @import "station-list";
 @import "media-player";
 @import "show-list";

@@ -21,9 +21,9 @@
 		"notifications", 
 		"storage", 
 		"webview", 
-		"contextMenus", 
-		"*://*.ponyvillelive.com/*", 
-		"*://bronytunes.com/*"
+		"contextMenus",
+		"*://*.ponyvillelive.com/",
+		"https://bronytunes.com/*"
   ]
 }
  

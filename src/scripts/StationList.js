@@ -21,7 +21,7 @@ export default function(module) {
       if(vm.stations[index].streams.length === 0 || vm.stations[index].offline) {
         return;
       }
-      
+
       vm.currentIndex = index;
       EventBus.emit('pvl:stationSelect', vm.stations[index]);
       EventBus.emit('pvl:selection', {type: 'audio'});

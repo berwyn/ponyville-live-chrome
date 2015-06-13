@@ -1,4 +1,8 @@
 pvl-station-list {
+	.station .md-list-item-text {
+		overflow: hidden;
+	}
+	
 	.offline {
 		.icon {
 			-webkit-filter: greyscale(100%);

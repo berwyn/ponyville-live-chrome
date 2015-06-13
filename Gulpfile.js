@@ -40,14 +40,18 @@ var paths = {
         'bower_components/material-design-icons/av/svg/production/ic_play_arrow_48px.svg',
         'bower_components/material-design-icons/av/svg/production/ic_stop_48px.svg',
         'bower_components/material-design-icons/av/svg/production/ic_volume_down_48px.svg',
-        'bower_components/material-design-icons/av/svg/production/ic_volume_up_48px.svg'
+        'bower_components/material-design-icons/av/svg/production/ic_volume_up_48px.svg',
+        'bower_components/material-design-icons/navigation/svg/production/ic_close_48px.svg'
     ],
     fonts: [
         'src/fonts/*',
         'bower_components/font-awesome/fonts/*'
     ],
     manifest: 'src/manifest.json',
-    background: 'src/scripts/background.js'
+    background: 'src/scripts/background.js',
+    svg: [
+        'bower_components/material-design-icons/sprites/svg-sprite/*.svg'
+    ]
 };
 
 gulp.task('build', [
@@ -58,7 +62,8 @@ gulp.task('build', [
     'images',
     'fonts',
     'manifest',
-    'background'
+    'background',
+    'svg'
 ]);
 
 gulp.task('clean', function(cb) {
@@ -136,4 +141,9 @@ gulp.task('manifest', function() {
 gulp.task('background', function() {
     return gulp.src(paths.background)
         .pipe(gulp.dest('compiled/scripts'));
+});
+
+gulp.task('svg', function() {
+    return gulp.src(paths.svg)
+        .pipe(gulp.dest('compiled/svg'));
 });
