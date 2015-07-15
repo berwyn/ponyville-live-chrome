@@ -1,3 +1,125 @@
+/// <reference path="tsd.d.ts" />
+
+import { Station, Stream } from 'Models';
+import { EventBus } from 'EventBus';
+
+export class MediaPlayerCtrl {
+  private static defaultArtwork = '/images/mascot/png';
+  
+  private playingCache: any = {};
+  private audioVolume: number = 1.0;
+  private state: string = 'loading';
+  private nowPlaying: any = null;
+  private artworkUrl: string = MediaPlayerCtrl.defaultArtwork;
+  private streamName: string = null;
+  private mediaEl: HTMLAudioElement = null;
+  private streamUrl: string = null;
+  private station: Station = null;
+  private cancelRefreshInterval: angular.IPromise<any>;
+  private isPlaying: boolean = false;
+  private isLoading: boolean = false;
+  
+  constructor(private _: _.LoDashStatic,
+              private $scope: angular.IScope,
+              private $element: JQuery,
+              private $interval: angular.IIntervalService,
+              private $sce: angular.ISCEService,
+              private eventbus: EventBus) {
+                $scope.$watch(
+                  () => this.audioVolume,
+                  newVal => {if(this.mediaEl) this.mediaEl.volume = parseFloat(newVal)}
+                );
+                
+                $scope.$watch(
+                  () => this.streamName,
+                  newVal => this.changeStream(newVal)
+                );
+                
+                this.cancelRefreshInterval = $interval(() => {
+                  if(this.isPlaying) {
+                    this.loadNowPlaying();
+                  }
+                }, 1000);
+              }
+  
+  togglePlayback() {
+    if(this.mediaEl) {
+      this.stopStream();
+    } else {
+      this.startStream();
+    }
+  }
+  
+  changeVolume(delta: number) {
+    let result = this.audioVolume + delta;
+    if(result < 0) {
+      this.audioVolume = 0;
+    } else if(result > 1) {
+      this.audioVolume = 1;
+    } else {
+      this.audioVolume = result;
+    }
+  }
+  
+  private loadNowPlaying(datum?) {
+    let source = datum || this.playingCache[this.station.shortcode];
+    
+    let history = this._<Stream>(source.streams)
+      .find(d => d.name === this.streamName);
+      
+    let externalData = history.current_song.external,
+        url = MediaPlayerCtrl.defaultArtwork;
+  }
+  
+  private startStream() {
+    this.stopStream();
+    if(!this.mediaEl) {
+      this.mediaEl = this.createMediaEl();
+      this.$element.append(this.mediaEl);
+    }
+    this.mediaEl.setAttribute('src', this.streamUrl);
+  }
+  
+  private stopStream() {
+    if(this.mediaEl) {
+      this.mediaEl.pause();
+      angular.element(this.mediaEl).remove();
+      this.mediaEl = null;
+      
+      this.isPlaying = false;
+      this.isLoading = false;
+    }
+  }
+  
+  private changeStream(streamName: string) {
+    if(!streamName) return;
+    
+    let url = this._(this.station.streams)
+      .find(s => s.name === streamName)
+      .url;
+      
+    this.streamUrl = url;
+    
+    if(this.mediaEl) this.mediaEl.setAttribute('src', this.streamUrl);
+    
+    this.loadNowPlaying();
+  }
+              
+  private createMediaEl(): HTMLAudioElement {
+    let mediaEl: HTMLAudioElement = document.createElement('audio');
+    
+    mediaEl.setAttribute('autoplay', 'true');
+    mediaEl.setAttribute('preload', 'auto');
+    mediaEl.volume = this.audioVolume;
+    
+    mediaEl.onloadstart = () => this.$scope.$apply(() => this.state = 'loading');
+    mediaEl.onplay      = () => this.$scope.$apply(() => this.state = 'playing');
+    mediaEl.onpause     = () => this.$scope.$apply(() => this.state = 'stopped');
+    
+    return mediaEl;
+  }
+}
+
 export default function(module) {
   /** ngInject **/
   function MediaPlayerCtrl(_, $scope, $element, $interval, $sce, EventBus) {

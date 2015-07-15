@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"out": "compiled/scripts/app.js",
+		"sourceMap": true,
+		"sourceRoot": "src/scripts"
+	},
+	"files": [
+		"src/scripts/Main.ts"
+	]
+}
