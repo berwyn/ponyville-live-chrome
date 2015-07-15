@@ -27,12 +27,16 @@ export interface Station {
 	twitter_url?: string
 	irc?: string
 	offline?: boolean
-	streams: any[]
+	streams: Stream[]
+	default_stream_id: number
 }
 
 export interface Stream {
+	id: number
 	name: string
-	current_song?: any
+	url: string
+	type: string
+	is_default: boolean
 }
 
 export interface ArrayResponse<T> {

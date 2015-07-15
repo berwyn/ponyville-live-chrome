@@ -26,5 +26,9 @@
     "angular-material": "^0.9.7",
     "commonjs": "^0.2.0",
     "material-design-icons": "^1.0.1"
+  },
+  "devDependencies": {
+    "rxjs": "~2.5.2",
+    "rx-dom": "~6.0.0"
   }
 }
