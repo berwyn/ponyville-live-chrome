@@ -1,14 +1,14 @@
-var gulp        = require('gulp'),
-    sourcemaps  = require('gulp-sourcemaps'),
-    concat      = require('gulp-concat'),
-    ngInject    = require('gulp-ng-annotate'),
-    sass        = require('gulp-sass'),
-    jshint      = require('gulp-jshint'),
-    stylish     = require('jshint-stylish'),
-    del         = require('del'),
-    browserify  = require('browserify'),
-    babelify    = require('babelify'),
-    through2    = require('through2');
+import gulp        from 'gulp';
+import sourcemaps  from 'gulp-sourcemaps';
+import concat      from 'gulp-concat';
+import ngInject    from 'gulp-ng-annotate';
+import sass        from 'gulp-sass';
+import eslint      from 'gulp-eslint';
+import del         from 'del';
+import browserify  from 'browserify';
+import babelify    from 'babelify';
+import buffer      from 'vinyl-buffer';
+import source      from 'vinyl-source-stream';
 
 var paths = {
     js: [
@@ -76,27 +76,24 @@ gulp.task('watch', function() {
     }
 });
 
-gulp.task('js', function() {
-    var jshintConfig = {
-        esnext: true
-    };
-
-    var browserified = through2.obj(function(file, enc, next) {
-        browserify(file.path)
-            .transform(babelify)
-            .bundle(function(err, res) {
-                file.contents = res;
-                next(null, file);
-            });
-    });
-
+gulp.task('lint:js', () => {
     return gulp.src(paths.js)
-        .pipe(jshint(jshintConfig))
-        .pipe(jshint.reporter(stylish))
-        .pipe(browserified)
-        .pipe(sourcemaps.init())
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
+
+gulp.task('js', ['lint:js'], () => {
+    var stream = browserify({
+        entries: './src/scripts/app.js',
+        debug: true
+    }).transform('babelify', { presets: ['es2015'] });
+
+    return stream.bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(ngInject())
-        .pipe(concat('app.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('compiled/scripts'));
 });
