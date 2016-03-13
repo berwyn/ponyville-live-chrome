@@ -1,23 +1,16 @@
 Ponyville Live! Desktop App
 =========
 
-The Ponyville Live! Desktop app was designed for [Ponyville Live!] [1] by TheAuzzieBrony.
+The Ponyville Live! Desktop app was designed for [Ponyville Live!][1] by TheAuzzieBrony.
 
-This fork is overhauled and maintained by [berwyn](https://github.com/berwyn).
+This fork is overhauled and maintained by [berwyn][3].
 
 The chrome application is designed to make it simpler and easier for users to tune into their favourite radio station on the Ponyville Live! network without having to open a new browser window and so on. Just open the app and select your station.
-
-Version
-----
-
-v0.3.0_BETA
-
-**If the current version ends with _BETA it means somethings may not work how they are expected to**
 
 Change List
 ----
 
-* **v0.3.0_BETA** - Introduces Material Angular, providing a better UI, as well as adding the basics to support video streams and Podcasts!
+* **v0.3.0** - Introduces Material Angular, providing a better UI, as well as adding the basics to support video streams and Podcasts!
 * **v0.2.0_BETA** - A total rewrite in Angular.js, allowing the app to be far more flexible
 * **v0.1.10_BETA** - v0.2.0 Pre-Release | Fix to handle new update to the PVL public API | Total code re-write
 * **v0.1.7** - Added facebook button to the app
@@ -34,19 +27,23 @@ Change List
 
 Installation
 --------------
-To install from the source code, you'll need Node.js, npm, Gulp, and Bower.
+To install from the source code, you'll need the `node`, `gulp`, `bower`, and `typings` executables on your `PATH`.
 With these installed and the repo cloned, you can
 ```bash
-cd $CODE_DIR && npm install && bower install && gulp build
+cd $CODE_DIR \
+    && npm install \
+    && bower install \
+    && typings install \
+    && gulp build
 ```
 
 The compiled extension is in the "compiled" directory, and can be directly
-loaded from the [Chrome extensions page](chrome://extensions).
+loaded from the [Chrome extensions page][2].
 
 License
 ----
 
-Copyright (c) Liam 'Auzzie' Haworth <production@hiveradio.net>, 2014.
+Copyright (c) [Liam 'Auzzie' Haworth][auzzie], [berwyn][berwyn] 2014.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -55,4 +52,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [1]:https://ponyvillelive.com
+[2]:chrome://extensions
+[3]:https://github.com/berwyn
 
+[auzzie]:mailto:production@hiveradio.net
+[berwyn]:mailto:berwyn.codeweaver@gmail.com
