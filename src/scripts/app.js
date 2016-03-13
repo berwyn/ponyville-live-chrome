@@ -1,30 +1,35 @@
-import Config from './Config';
-import EventBus from './EventBus';
-import MainCtrl from './MainCtrl';
-import MediaPlayer from './MediaPlayer';
-import OfflineFilter from './OfflineFilter';
-import PvlService from './PvlService';
-import StationList from './StationList';
-import ShowList from './ShowList';
+import { ControllersModule } from './controllers/controllers';
+import { ServiceModule } from './services/services';
+import { FiltersModule } from './filters/filters';
+import { DirectivesModule } from './directives/directives';
 
-var ngMod = angular
-    .module('PVL', ['ngAnimate', 'ngMaterial'])
+let modules = [
+    'ngAnimate',
+    'ngMaterial',
+    ControllersModule.name,
+    ServiceModule.name,
+    FiltersModule.name,
+    DirectivesModule.name
+];
+
+/** ngInject **/
+function config($compileProvider, $mdThemingProvider, $mdIconProvider) {
+    $compileProvider
+        .imgSrcSanitizationWhitelist(/^\s*(blob:|data:image)|chrome-extension:/);
+
+    $mdThemingProvider.theme('default')
+        .primaryPalette('indigo')
+        .accentPalette('orange');
+
+    $mdIconProvider
+        .iconSet('av', 'svg/svg-sprite-av.svg', 24);
+}
+
+angular
+    .module('PVL', modules)
+    .config(config)
     .constant('io', io)
     .constant('jQuery', $)
     .constant('moment', moment)
     .constant('_', _)
     .constant('ColorThief', ColorThief);
-
-/*
- * Each of our functions exports a "load"
- * function we need to invoke with our module
- */
-
-Config(ngMod);
-EventBus(ngMod);
-MainCtrl(ngMod);
-MediaPlayer(ngMod);
-OfflineFilter(ngMod);
-PvlService(ngMod);
-StationList(ngMod);
-ShowList(ngMod);

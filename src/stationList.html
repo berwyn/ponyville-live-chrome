@@ -1,7 +1,6 @@
 <md-list>
-	<md-list-item class="station md-3-line" layout="column" ng-class="{offline: station.offline || station.category === 'video'}" ng-repeat="station in stationList.stations"
-	ng-click="stationList.setSelected($index)">
-		<img class="icon" alt="{{::station.name}}" ng-src="{{station.safeImgUrl}}">
+	<md-list-item class="station md-3-line" layout="column" ng-class="{offline: station.offline || station.category === 'video'}" ng-repeat="station in stationList.stations" ng-click="stationList.setSelected($index)">
+		<img class="icon md-avatar" alt="{{::station.name}}" ng-src="{{station.safeImgUrl}}">
 		<div class="md-list-item-text">
 			<h3 style="text-overflow:elipsis">{{::station.name}}</h3>
 			<h4 style="text-overflow:elipsis">{{::station.genre}}</h4>

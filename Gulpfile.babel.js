@@ -1,14 +1,15 @@
 import gulp        from 'gulp';
 import sourcemaps  from 'gulp-sourcemaps';
 import concat      from 'gulp-concat';
-import ngInject    from 'gulp-ng-annotate';
+import ngannotate  from 'gulp-ng-annotate';
 import sass        from 'gulp-sass';
 import eslint      from 'gulp-eslint';
+import gulpif      from 'gulp-if';
 import del         from 'del';
 import browserify  from 'browserify';
-import babelify    from 'babelify';
 import buffer      from 'vinyl-buffer';
 import source      from 'vinyl-source-stream';
+import merge       from 'merge2';
 
 var paths = {
     js: [
@@ -70,10 +71,15 @@ gulp.task('clean', function(cb) {
     del(['compiled'], cb);
 });
 
+gulp.task('clean:nuclear', function(cb) {
+    del(['compiled', 'typings', 'node_modules', 'bower_componets'], cb);
+});
+
 gulp.task('watch', function() {
     for(var task in paths) {
         gulp.watch(paths[task], [task]);
     }
+    gulp.watch('src/**/*.ts', ['js']);
 });
 
 gulp.task('lint:js', () => {
@@ -84,16 +90,21 @@ gulp.task('lint:js', () => {
 });
 
 gulp.task('js', ['lint:js'], () => {
-    var stream = browserify({
+    let browserifyOpts = {
         entries: './src/scripts/app.js',
         debug: true
-    }).transform('babelify', { presets: ['es2015'] });
+    };
+    
+    let stream = browserify(browserifyOpts)
+        .transform('babelify', { presets: ['es2015'] })
+        .plugin('tsify')
+        .add('typings/browser.d.ts');
 
     return stream.bundle()
         .pipe(source('app.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({ loadMaps: true }))
-        .pipe(ngInject())
+        .pipe(ngannotate())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('compiled/scripts'));
 });
@@ -107,9 +118,13 @@ gulp.task('vendor', function() {
 });
 
 gulp.task('sass', function() {
+    let sassCheck = file => {
+        return /scss$/i.test(file.basename);
+    }
+    
     return gulp.src(paths.sass)
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(gulpif(sassCheck, sass()))
         .pipe(concat('mane.css'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('compiled/styles'));

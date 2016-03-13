@@ -15,16 +15,16 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "^1.4.0",
-    "angular-animate": "^1.4.0",
-    "jquery": "^2.1.1",
-    "font-awesome": "^4.2.0",
-    "lodash": "^2.4.1",
-    "moment": "^2.8.4",
-    "socket.io-client": "^1.2.1",
-    "color-thief": "*",
-    "angular-material": "^0.9.7",
+    "angular": "~1.5.0",
+    "angular-animate": "~1.5.0",
+    "angular-material": "~1.0.0",
+    "jquery": "~2.2.1",
+    "font-awesome": "~4.5.0",
+    "lodash": "~4.6.1",
+    "moment": "~2.12.0",
+    "socket.io-client": "~1.4.5",
+    "color-thief": "~2.0.1",
     "commonjs": "^0.2.0",
-    "material-design-icons": "^1.0.1"
+    "material-design-icons": "~2.2.1"
   }
 }
